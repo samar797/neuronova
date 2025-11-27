@@ -34,30 +34,62 @@ users = {
 # Streamlit app
 st.set_page_config(page_title="AI Vocational Tutor", page_icon="🎓")
 
-# Login system
+# Login/Signup system
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.username = ""
+    st.session_state.view = "login"  # "login" or "signup"
 
 if not st.session_state.logged_in:
     st.title("AI Vocational Tutor")
-    st.header("Login")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        if username in users and users[username] == password:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.success("Welcome! Select a stream to start tutoring.")
+    
+    # Toggle between login and signup
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Login"):
+            st.session_state.view = "login"
             st.rerun()
-        else:
-            st.error("Invalid username or password.")
+    with col2:
+        if st.button("Sign Up"):
+            st.session_state.view = "signup"
+            st.rerun()
+    
+    if st.session_state.view == "login":
+        st.header("Login")
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        if st.button("Login"):
+            if username in users and users[username] == password:
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.success("Welcome! Select a stream to start tutoring.")
+                st.rerun()
+            else:
+                st.error("Invalid username or password.")
+    elif st.session_state.view == "signup":
+        st.header("Sign Up")
+        new_username = st.text_input("New Username")
+        new_password = st.text_input("New Password", type="password")
+        confirm_password = st.text_input("Confirm Password", type="password")
+        if st.button("Sign Up"):
+            if new_username in users:
+                st.error("Username already exists.")
+            elif new_password != confirm_password:
+                st.error("Passwords do not match.")
+            elif not new_username or not new_password:
+                st.error("Please fill in all fields.")
+            else:
+                users[new_username] = new_password
+                st.success("Account created successfully! Please log in.")
+                st.session_state.view = "login"
+                st.rerun()
 else:
     st.title("AI Vocational Tutor")
     st.write(f"Welcome, {st.session_state.username}!")
     if st.button("Logout"):
         st.session_state.logged_in = False
         st.session_state.username = ""
+        st.session_state.view = "login"
         st.rerun()
 
     # Stream selection (including General)
@@ -86,3 +118,6 @@ else:
                 st.write(ai_response)
             else:
                 st.write("Please enter a question.")
+
+
+
