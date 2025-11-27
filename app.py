@@ -7,12 +7,42 @@ st.set_page_config(
     layout="centered"
 )
 st.markdown("""
-    <style>
-        .stApp {
-           background-color: #dcfce7;
+<style>
+.stApp {
+    background:
+        repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,0.03),
+            rgba(255,255,255,0.03) 10px,
+            rgba(0,0,0,0.03) 10px,
+            rgba(0,0,0,0.03) 20px
+        ),
+        linear-gradient(135deg, #0f172a, #7f1d1d);
+    background-attachment: fixed;
+}
 
-        }
-    </style>
+/* Make text more visible */
+h1, h2, h3, h4, h5, h6, p, label, div {
+    color: #ffffff !important;
+}
+
+/* Button styling */
+.stButton > button {
+    background: linear-gradient(135deg, #1e3a8a, #b91c1c);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 8px 18px;
+    font-weight: bold;
+}
+
+.stButton > button:hover {
+    background: linear-gradient(135deg, #2563eb, #dc2626);
+    color: white;
+}
+</style>
+""", unsafe_allow_html=True)
+
 """, unsafe_allow_html=True)
 
 if "login" not in st.session_state:
