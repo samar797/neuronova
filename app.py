@@ -27,13 +27,13 @@ stream_data = {
 # ---------------- PDF BACKEND MAPPING ----------------
 pdf_map = {
     "jewellery making": {
-        "terracotta jewellery": "lesson_pdfs/jewellery making/terracotta jewellery.pdf",
-        "beaded jewellery": "lesson_pdfs/jewellery making/beaded jewellery.pdf",
-        "thread jewellery": "lesson_pdfs/jewellery making/thread jewellery.pdf",
+        "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta.pdf",
+        "beaded jewellery": "lesson_pdfs/jewellery_making/beaded.pdf",
+        "thread jewellery": "lesson_pdfs/jewellery_making/thread.pdf",
     },
     "Candle And Soap Making": {
-        "scented candles": "lesson_pdfs/Candle And Soap Making/scented candles.pdf",
-        "organic soaps": "lesson_pdfs/Candle And Soap Making/organic soaps.pdf",
+        "scented candles": "lesson_pdfs/Candle_And_Soap_Making/scented candle.pdf",
+        "organic soaps": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
     }
 }
 
