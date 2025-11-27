@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 # ---------------- CONFIG ----------------
-st.set_page_config(
+    st.set_page_config(
     page_title="AI Vocational Tutor",
     page_icon="🎓",
     layout="centered"
