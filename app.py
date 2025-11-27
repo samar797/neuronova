@@ -21,8 +21,8 @@ if "user" not in st.session_state:
 # ---------------- SAMPLE CONTENT ----------------
 stream_data = {
     "Jewellery Making": [
-        "beaded jewellery",
         "terracotta jewellery",
+        "beaded jewellery",
         "thread jewellery"
     ],
     "Candle And Soap Making": [
@@ -34,8 +34,8 @@ stream_data = {
 # ---------------- PDF BACKEND MAPPING (MATCHES YOUR GITHUB FOLDERS) ----------------
 pdf_map = {
     "Jewellery Making": {
-        "beaded jewellery": "lesson_pdfs/Jewellery_Making/beaded.pdf",
         "terracotta jewellery": "lesson_pdfs/Jewellery_Making/terracotta.pdf",
+        "beaded jewellery": "lesson_pdfs/Jewellery_Making/beaded.pdf",
         "thread jewellery": "lesson_pdfs/Jewellery_Making/threaded.pdf",
     },
     "Candle And Soap Making": {
