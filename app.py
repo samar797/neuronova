@@ -19,7 +19,7 @@ if "user" not in st.session_state:
 
 # ---------------- SAMPLE CONTENT ----------------
 stream_data = {
-    "Fashion": ["basic tailoring", "blouse stitching", "fashion designing basics"],
+    "Fashion": ["Basic Tailoring", "Blouse Stitching", "Fashion Designing Basics"],
     "Computer skills": ["ms office", " Basic It skills", "Data entry"],
 }
 
