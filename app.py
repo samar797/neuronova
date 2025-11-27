@@ -9,7 +9,7 @@ st.set_page_config(
 st.markdown("""
     <style>
         .stApp {
-            background: linear-gradient(to right, #fbd3e9, #bb377d);
+            background-color: #dbeafe;
         }
     </style>
 """, unsafe_allow_html=True)
