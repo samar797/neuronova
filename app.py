@@ -50,9 +50,8 @@ if not st.session_state.login:
 
         new_user = st.text_input("Create Username")
         new_pass = st.text_input("Create Password", type="password")
-        language = st.selectbox("Preferred Language", ["English", "Hindi"])
+        language = st.selectbox("Preferred Language", ["English"])
         stream = st.selectbox("Vocational Stream", list(stream_data.keys()))
-        level = st.selectbox("Learning Level", ["Beginner", "Intermediate", "Advanced"])
 
         if st.button("Register"):
             st.session_state.users.append({
@@ -60,7 +59,6 @@ if not st.session_state.login:
                 "password": new_pass,
                 "language": language,
                 "stream": stream,
-                "level": level
             })
             st.success("Account created successfully!")
 
