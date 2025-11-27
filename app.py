@@ -132,15 +132,4 @@ else:
                             st.error("PDF file not found. Please upload it on GitHub to the correct path.")
                             st.write("Expected path:", pdf_path)
 
-        st.divider()
-        
-        st.subheader("Ask AI Tutor")
-        question = st.text_area("Ask your question")
-
-        if st.button("Get Answer"):
-            if question:
-                st.write("**AI Response (Demo):**")
-                st.info(f"This is a demo AI answer for {user.get('stream')} student.")
-            else:
-                st.warning("Please enter a question.")
-
+       
