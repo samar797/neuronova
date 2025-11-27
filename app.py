@@ -6,6 +6,13 @@ st.set_page_config(
     page_icon="🎓",
     layout="centered"
 )
+st.markdown("""
+    <style>
+        .stApp {
+            background: linear-gradient(to right, #fbd3e9, #bb377d);
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 if "login" not in st.session_state:
     st.session_state.login = False
