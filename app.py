@@ -17,11 +17,6 @@ responses = {
         "Patient care involves empathy and skills. What do you want to know?",
         "Anatomy and physiology are foundational. Let's discuss!",
         "Ethics in nursing is crucial. How can I guide you?"
-    ],
-    "General": [
-        "General knowledge covers a wide range of topics. What subject are you interested in?",
-        "Study skills like time management are important. How can I help?",
-        "Career advice can guide your vocational path. Ask away!"
     ]
 }
 
@@ -92,16 +87,15 @@ else:
         st.session_state.view = "login"
         st.rerun()
 
-    # Stream selection (including General)
+    # Stream selection (three vocational streams only)
     if "stream" not in st.session_state:
         st.session_state.stream = None
 
-    stream_options = ["Information Technology", "Mechanical Engineering", "Nursing", "General"]
+    stream_options = ["Information Technology", "Mechanical Engineering", "Nursing"]
     stream_map = {
         "Information Technology": "IT",
         "Mechanical Engineering": "Mechanical Engineering",
-        "Nursing": "Nursing",
-        "General": "General"
+        "Nursing": "Nursing"
     }
 
     selected_stream_display = st.selectbox("Select Vocational Stream", stream_options)
