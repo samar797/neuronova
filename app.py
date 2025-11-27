@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6, p, label, div {
 /* Button styling */
 .stButton > button {
     background: linear-gradient(135deg, #1e3a8a, #b91c1c);
-    color: white;
+    color: black;
     border-radius: 10px;
     border: none;
     padding: 8px 18px;
@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5, h6, p, label, div {
 
 .stButton > button:hover {
     background: linear-gradient(135deg, #2563eb, #dc2626);
-    color: white;
+    color: black;
 }
 </style>
 """, unsafe_allow_html=True)
