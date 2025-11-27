@@ -9,8 +9,6 @@ st.set_page_config(
 
 """, unsafe_allow_html=True)
 
-""", unsafe_allow_html=True)
-
 if "login" not in st.session_state:
     st.session_state.login = False
 
