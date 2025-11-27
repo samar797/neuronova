@@ -20,11 +20,11 @@ if "user" not in st.session_state:
 
 # ---------------- SAMPLE CONTENT ----------------
 stream_data = {
-    "jewellery making": ["terracotta jewellery", "beaded jewellery", "threaded jewellery"],
-    "Candle And Soap Making": ["scented candle", "organic soap"],
+    "jewellery making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
+    "Candle And Soap Making": ["scented candles", "organic soaps"],
 }
 
-# ---------------- PDF BACKEND MAPPING ----------------
+# ---------------- PDF BACKEND MAPPING (MATCHES YOUR FOLDERS EXACTLY) ----------------
 pdf_map = {
     "jewellery making": {
         "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta.pdf",
@@ -80,33 +80,32 @@ else:
 
     st.divider()
 
-   # ---------------- LESSONS WITH PDF BACKEND ----------------
-for lesson in stream_data[user["stream"]]:
-    if st.button(lesson):
+    # ---------------- LESSONS WITH PDF BACKEND ----------------
+    st.subheader("📚 Lessons")
 
-        if lesson not in stream_pdf_dict:
-            st.error("❌ No PDF linked for this lesson.")
-            continue
+    stream_pdf_dict = pdf_map.get(user["stream"])
 
-        pdf_path = stream_pdf_dict[lesson]
+    for lesson in stream_data[user["stream"]]:
+        if st.button(lesson):
 
-        # 🔍 DEBUG LINES (ADD HERE)
-        st.write("Looking for PDF at:", pdf_path)
-        st.write("File exists?", os.path.exists(pdf_path))
+            if lesson not in stream_pdf_dict:
+                st.error("❌ No PDF linked for this lesson.")
+                continue
 
-        if os.path.exists(pdf_path):
-            st.success(f"PDF Ready: {lesson}")
+            pdf_path = stream_pdf_dict[lesson]
 
-            with open(pdf_path, "rb") as f:
-                st.download_button(
-                    label="📥 Download Lesson PDF",
-                    data=f,
-                    file_name=os.path.basename(pdf_path),
-                    mime="application/pdf"
-                )
-        else:
-            st.error("❌ PDF file not found. Please check file name on GitHub.")
+            if os.path.exists(pdf_path):
+                st.success(f"PDF Ready: {lesson}")
 
+                with open(pdf_path, "rb") as f:
+                    st.download_button(
+                        label="📥 Download Lesson PDF",
+                        data=f,
+                        file_name=os.path.basename(pdf_path),
+                        mime="application/pdf"
+                    )
+            else:
+                st.error("❌ PDF file not found. Please upload it on GitHub.")
 
     st.divider()
 
