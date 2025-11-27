@@ -24,18 +24,33 @@ stream_data = {
     "Candle And Soap Making": ["scented candles", "organic soaps"],
 }
 
-# ---------------- PDF BACKEND MAPPING (MATCHES YOUR FOLDERS EXACTLY) ----------------
+# ---------------- PDF BACKEND MAPPING (MATCHES YOUR GITHUB FOLDERS) ----------------
 pdf_map = {
     "jewellery making": {
-        "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta.pdf",
-        "beaded jewellery": "lesson_pdfs/jewellery_making/beaded.pdf",
-        "thread jewellery": "lesson_pdfs/jewellery_making/thread.pdf",
+        "terracotta jewellery": "lesson_pdfs/jewellery making/terracotta.pdf",
+        "beaded jewellery": "lesson_pdfs/jewellery making/beaded.pdf",
+        "thread jewellery": "lesson_pdfs/jewellery making/thread.pdf",
     },
     "Candle And Soap Making": {
         "scented candles": "lesson_pdfs/Candle_And_Soap_Making/scented candle.pdf",
         "organic soaps": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
     }
 }
+
+# ---------------- helper ----------------
+def safe_get_stream_for_user(user_obj):
+    """Return stream name if present and valid, else None."""
+    if not user_obj:
+        return None
+    s = user_obj.get("stream")
+    # direct check
+    if s in stream_data:
+        return s
+    # try case-insensitive match
+    for key in stream_data.keys():
+        if key.strip().lower() == str(s).strip().lower():
+            return key
+    return None
 
 # ---------------- UI ----------------
 st.title("🎓 AI Vocational Tutor")
@@ -56,11 +71,9 @@ if not st.session_state.login:
                 "password": new_pass,
                 "stream": stream,
             }
-
             st.session_state.users.append(user_data)
             st.session_state.user = user_data
             st.session_state.login = True
-
             st.success("Account created successfully!")
             st.rerun()
         else:
@@ -70,54 +83,75 @@ if not st.session_state.login:
 else:
     user = st.session_state.user
 
-    st.success(f"Welcome {user['username']}")
-    st.info(f"Stream: {user['stream']}")
+    # Safety: if session user missing, reset login
+    if not user:
+        st.error("Session user missing — please register again.")
+        if st.button("Restart"):
+            st.session_state.login = False
+            st.rerun()
+    else:
+        st.success(f"Welcome {user.get('username')}")
+        st.info(f"Stream: {user.get('stream')}")
 
-    if st.button("Logout"):
-        st.session_state.login = False
-        st.session_state.user = None
-        st.rerun()
+        if st.button("Logout"):
+            st.session_state.login = False
+            st.session_state.user = None
+            st.rerun()
 
-    st.divider()
+        st.divider()
 
-    # ---------------- LESSONS WITH PDF BACKEND ----------------
-    st.subheader("📚 Lessons")
+        # ---------------- LESSONS WITH PDF BACKEND (robust) ----------------
+        st.subheader("📚 Lessons")
 
-    stream_pdf_dict = pdf_map.get(user["stream"])
-
-    for lesson in stream_data[user["stream"]]:
-        if st.button(lesson):
-
-            if lesson not in stream_pdf_dict:
-                st.error("❌ No PDF linked for this lesson.")
-                continue
-
-            pdf_path = stream_pdf_dict[lesson]
-
-            if os.path.exists(pdf_path):
-                st.success(f"PDF Ready: {lesson}")
-
-                with open(pdf_path, "rb") as f:
-                    st.download_button(
-                        label="📥 Download Lesson PDF",
-                        data=f,
-                        file_name=os.path.basename(pdf_path),
-                        mime="application/pdf"
-                    )
-            else:
-                st.error("❌ PDF file not found. Please upload it on GitHub.")
-
-    st.divider()
-
-    # ---------------- AI TUTOR ----------------
-    st.subheader("🤖 Ask AI Tutor")
-    question = st.text_area("Ask your question")
-
-    if st.button("Get Answer"):
-        if question:
-            st.write("**AI Response (Demo):**")
-            st.info(
-                f"This is a demo AI answer for {user['stream']} student."
-            )
+        # Determine user's stream name safely (handles minor case differences)
+        user_stream = safe_get_stream_for_user(user)
+        if not user_stream:
+            st.error("Your selected stream is not recognised. Please re-register selecting a valid stream.")
+            st.write("Available streams:", list(stream_data.keys()))
         else:
-            st.warning("Please enter a question.")
+            # Try to get the pdf mapping for this stream safely
+            stream_pdf_dict = pdf_map.get(user_stream, {})
+
+            # Show lessons (if stream exists in stream_data)
+            lessons = stream_data.get(user_stream, [])
+            if not lessons:
+                st.info("No lessons configured for your stream yet.")
+            else:
+                for lesson in lessons:
+                    if st.button(lesson):
+                        # safe check if pdf_map has this lesson
+                        pdf_path = stream_pdf_dict.get(lesson)
+                        if not pdf_path:
+                            st.error("❌ No PDF linked for this lesson yet. (Mapping missing)")
+                            st.write("Mapped lessons for this stream:", list(stream_pdf_dict.keys()))
+                            continue
+
+                        # debug lines (helpful if file missing) - you can remove later
+                        st.write("Looking for PDF at:", pdf_path)
+                        st.write("File exists?", os.path.exists(pdf_path))
+
+                        if os.path.exists(pdf_path):
+                            st.success(f"PDF Ready: {lesson}")
+                            with open(pdf_path, "rb") as f:
+                                st.download_button(
+                                    label="📥 Download Lesson PDF",
+                                    data=f,
+                                    file_name=os.path.basename(pdf_path),
+                                    mime="application/pdf"
+                                )
+                        else:
+                            st.error("❌ PDF file not found. Please upload it on GitHub to the correct path.")
+                            st.write("Expected path:", pdf_path)
+
+        st.divider()
+
+        # ---------------- AI TUTOR ----------------
+        st.subheader("🤖 Ask AI Tutor")
+        question = st.text_area("Ask your question")
+
+        if st.button("Get Answer"):
+            if question:
+                st.write("**AI Response (Demo):**")
+                st.info(f"This is a demo AI answer for {user.get('stream')} student.")
+            else:
+                st.warning("Please enter a question.")
