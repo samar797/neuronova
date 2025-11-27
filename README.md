@@ -1,34 +1,119 @@
+import streamlit as st
 import os
-from openai import OpenAI
+from PyPDF2 import PdfReader
 
-# Load API key
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# ---------------- CONFIG ----------------
+st.set_page_config(
+    page_title="AI Vocational Tutor",
+    page_icon="🎓",
+    layout="centered"
+)
 
-# System prompt template
-SYSTEM_PROMPT = """
-You are an expert AI tutor for vocational training students.
-Explain concepts using simple language, diagrams (text-based), steps, examples, safety tips, and practical applications.
-Always tailor explanations to the selected vocational stream.
-Format responses clearly.
-"""
+# ---------------- STORAGE FOLDER ----------------
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-def get_tutor_response(query, stream):
-    prompt = f"""
-    Vocational Stream: {stream}
-    Student Question: {query}
+# ---------------- SESSION ----------------
+if "login" not in st.session_state:
+    st.session_state.login = False
 
-    Provide a step-by-step explanation suitable for a student.
-    """
+if "users" not in st.session_state:
+    st.session_state.users = []
 
-    response = client.chat.completions.create(
-        model="gpt-4.1",   # or gpt-5.1 if you have access
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=500
-    )
+if "user" not in st.session_state:
+    st.session_state.user = None
 
-    return response.choices[0].message["content"]
+# ---------------- SAMPLE CONTENT ----------------
+stream_data = {
+    "jewellery making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
+    "Candle And Soap Making": ["scented candles", "organic soaps"],
+}
 
+# ---------------- UI ----------------
+st.title("🎓 AI Vocational Tutor")
+st.caption("Smart Learning for Vocational Students")
 
+# ---------------- ONLY SIGN UP (NO LOGIN) ----------------
+if not st.session_state.login:
+    st.subheader("Create Account")
+
+    new_user = st.text_input("Create Username")
+    new_pass = st.text_input("Create Password", type="password")
+    stream = st.selectbox("Vocational Stream", list(stream_data.keys()))
+
+    if st.button("Register & Continue"):
+        if new_user and new_pass:
+            user_data = {
+                "username": new_user,
+                "password": new_pass,
+                "stream": stream,
+            }
+
+            st.session_state.users.append(user_data)
+            st.session_state.user = user_data
+            st.session_state.login = True
+
+            st.success("Account created successfully!")
+            st.rerun()
+        else:
+            st.warning("Please fill all fields.")
+
+# ---------------- MAIN DASHBOARD ----------------
+else:
+    user = st.session_state.user
+
+    st.success(f"Welcome {user['username']}")
+    st.info(f"Stream: {user['stream']}")
+
+    if st.button("Logout"):
+        st.session_state.login = False
+        st.session_state.user = None
+        st.rerun()
+
+    st.divider()
+
+    # ---------------- LESSONS ----------------
+    st.subheader("📚 Lessons")
+    for lesson in stream_data[user["stream"]]:
+        st.button(lesson)
+
+    st.divider()
+
+    # ---------------- PDF UPLOAD (BACKEND) ----------------
+    st.subheader("📂 Upload Study Material (PDF)")
+    uploaded_file = st.file_uploader("Upload PDF", type="pdf")
+
+    if uploaded_file:
+        file_path = os.path.join(UPLOAD_FOLDER, uploaded_file.name)
+
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        st.success("PDF Uploaded Successfully!")
+
+        # Read PDF Content (Backend Processing)
+        reader = PdfReader(file_path)
+        pdf_text = ""
+        for page in reader.pages:
+            pdf_text += page.extract_text()
+
+        st.info("PDF Content Loaded to Backend ✅")
+
+    st.divider()
+
+    # ---------------- AI TUTOR ----------------
+    st.subheader("🤖 Ask AI Tutor")
+    question = st.text_area("Ask your question")
+
+    if st.button("Get Answer"):
+        if question:
+            st.write("**AI Response (Demo Backend):**")
+
+            if uploaded_file:
+                st.info("Answer generated using your uploaded PDF ✅")
+                st.write(pdf_text[:500])  # Showing first 500 chars of PDF
+            else:
+                st.info(f"This is a demo AI answer for {user['stream']} student.")
+
+        else:
+            st.warning("Please enter a question.")
