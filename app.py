@@ -81,10 +81,6 @@ else:
     st.divider()
 
    # ---------------- LESSONS WITH PDF BACKEND ----------------
-st.subheader("📚 Lessons")
-
-stream_pdf_dict = pdf_map.get(user["stream"])
-
 for lesson in stream_data[user["stream"]]:
     if st.button(lesson):
 
@@ -93,6 +89,10 @@ for lesson in stream_data[user["stream"]]:
             continue
 
         pdf_path = stream_pdf_dict[lesson]
+
+        # 🔍 DEBUG LINES (ADD HERE)
+        st.write("Looking for PDF at:", pdf_path)
+        st.write("File exists?", os.path.exists(pdf_path))
 
         if os.path.exists(pdf_path):
             st.success(f"PDF Ready: {lesson}")
@@ -106,6 +106,7 @@ for lesson in stream_data[user["stream"]]:
                 )
         else:
             st.error("❌ PDF file not found. Please check file name on GitHub.")
+
 
     st.divider()
 
