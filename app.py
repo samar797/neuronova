@@ -27,13 +27,13 @@ stream_data = {
 # ---------------- PDF BACKEND MAPPING ----------------
 pdf_map = {
     "jewellery making": {
-        "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta.pdf",
-        "beaded jewellery": "lesson_pdfs/jewellery_making/beaded.pdf",
-        "thread jewellery": "lesson_pdfs/jewellery_making/threaded.pdf",
+        "terracotta jewellery": "lesson_pdfs/jewellery making/terracotta jewellery.pdf",
+        "beaded jewellery": "lesson_pdfs/jewellery making/beaded jewellery.pdf",
+        "thread jewellery": "lesson_pdfs/jewellery making/thread jewellery.pdf",
     },
     "Candle And Soap Making": {
-        "scented candles": "lesson_pdfs/candle_and_soap_making/scented_candles.pdf",
-        "organic soaps": "lesson_pdfs/candle_and_soap_making/organic_soaps.pdf",
+        "scented candles": "lesson_pdfs/Candle And Soap Making/scented candles.pdf",
+        "organic soaps": "lesson_pdfs/Candle And Soap Making/organic soaps.pdf",
     }
 }
 
@@ -80,25 +80,32 @@ else:
 
     st.divider()
 
-    # ---------------- LESSONS WITH PDF BACKEND ----------------
-    st.subheader("📚 Lessons")
+   # ---------------- LESSONS WITH PDF BACKEND ----------------
+st.subheader("📚 Lessons")
 
-    for lesson in stream_data[user["stream"]]:
-        if st.button(lesson):
-            pdf_path = pdf_map[user["stream"]][lesson]
+stream_pdf_dict = pdf_map.get(user["stream"])
 
-            if os.path.exists(pdf_path):
-                st.success(f"PDF Ready: {lesson}")
+for lesson in stream_data[user["stream"]]:
+    if st.button(lesson):
 
-                with open(pdf_path, "rb") as f:
-                    st.download_button(
-                        label="📥 Download Lesson PDF",
-                        data=f,
-                        file_name=os.path.basename(pdf_path),
-                        mime="application/pdf"
-                    )
-            else:
-                st.error("❌ PDF not found. Please upload it on GitHub.")
+        if lesson not in stream_pdf_dict:
+            st.error("❌ No PDF linked for this lesson.")
+            continue
+
+        pdf_path = stream_pdf_dict[lesson]
+
+        if os.path.exists(pdf_path):
+            st.success(f"PDF Ready: {lesson}")
+
+            with open(pdf_path, "rb") as f:
+                st.download_button(
+                    label="📥 Download Lesson PDF",
+                    data=f,
+                    file_name=os.path.basename(pdf_path),
+                    mime="application/pdf"
+                )
+        else:
+            st.error("❌ PDF file not found. Please check file name on GitHub.")
 
     st.divider()
 
