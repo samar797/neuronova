@@ -1,88 +1,34 @@
-import streamlit as st
-import random
+import os
+from openai import OpenAI
 
-# Mock AI responses for tutoring (expand as needed)
-responses = {
-    "IT": [
-        "In IT, programming languages like Python are essential. What specific topic would you like to learn?",
-        "Networking involves protocols like TCP/IP. Can you tell me more about your question?",
-        "Cybersecurity focuses on protecting systems. How can I assist you today?"
-    ],
-    "Mechanical Engineering": [
-        "Thermodynamics is key in mechanical engineering. What aspect interests you?",
-        "Fluid mechanics deals with liquids and gases. Ask me anything!",
-        "Materials science helps in designing durable parts. How can I help?"
-    ],
-    "Nursing": [
-        "Patient care involves empathy and skills. What do you want to know?",
-        "Anatomy and physiology are foundational. Let's discuss!",
-        "Ethics in nursing is crucial. How can I guide you?"
-    ],
-    "General": [
-        "General knowledge covers a wide range of topics. What subject are you interested in?",
-        "Study skills like time management are important. How can I help?",
-        "Career advice can guide your vocational path. Ask away!"
-    ]
-}
+# Load API key
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Simple user database (in a real app, use a secure database)
-users = {
-    "student1": "pass1",
-    "student2": "pass2"
-}
+# System prompt template
+SYSTEM_PROMPT = """
+You are an expert AI tutor for vocational training students.
+Explain concepts using simple language, diagrams (text-based), steps, examples, safety tips, and practical applications.
+Always tailor explanations to the selected vocational stream.
+Format responses clearly.
+"""
 
-# Streamlit app
-st.set_page_config(page_title="AI Vocational Tutor", page_icon="🎓")
+def get_tutor_response(query, stream):
+    prompt = f"""
+    Vocational Stream: {stream}
+    Student Question: {query}
 
-# Login system
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-    st.session_state.username = ""
+    Provide a step-by-step explanation suitable for a student.
+    """
 
-if not st.session_state.logged_in:
-    st.title("AI Vocational Tutor")
-    st.header("Login")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        if username in users and users[username] == password:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.success("Welcome! Select a stream to start tutoring.")
-            st.rerun()
-        else:
-            st.error("Invalid username or password.")
-else:
-    st.title("AI Vocational Tutor")
-    st.write(f"Welcome, {st.session_state.username}!")
-    if st.button("Logout"):
-        st.session_state.logged_in = False
-        st.session_state.username = ""
-        st.rerun()
+    response = client.chat.completions.create(
+        model="gpt-4.1",   # or gpt-5.1 if you have access
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=500
+    )
 
-    # Stream selection (including General)
-    if "stream" not in st.session_state:
-        st.session_state.stream = None
+    return response.choices[0].message["content"]
 
-    stream_options = ["Information Technology", "Mechanical Engineering", "Nursing", "General"]
-    stream_map = {
-        "Information Technology": "IT",
-        "Mechanical Engineering": "Mechanical Engineering",
-        "Nursing": "Nursing",
-        "General": "General"
-    }
 
-    selected_stream_display = st.selectbox("Select Vocational Stream", stream_options)
-    st.session_state.stream = stream_map[selected_stream_display]
-
-    # Tutoring interface
-    if st.session_state.stream:
-        st.subheader(f"AI Response ({st.session_state.stream})")
-        question = st.text_input("Ask a question:")
-        if st.button("Submit"):
-            if question:
-                # Mock AI response (random from list)
-                ai_response = random.choice(responses[st.session_state.stream])
-                st.write(ai_response)
-            else:
-                st.write("Please enter a question.")
