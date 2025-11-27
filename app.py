@@ -57,7 +57,7 @@ else:
     user = st.session_state.user
 
     st.success(f"Welcome {user['username']}")
-    st.info(f"Stream: {user['stream']} | Language: {user['language']}")
+    st.info(f"Stream: {user['stream']}")
 
     if st.button("Logout"):
         st.session_state.login = False
