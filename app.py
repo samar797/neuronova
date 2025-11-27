@@ -7,8 +7,6 @@ st.set_page_config(
     layout="centered"
 )
 
-(""", unsafe_allow_html=True)
-
 if "login" not in st.session_state:
     st.session_state.login = False
 
