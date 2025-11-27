@@ -19,10 +19,8 @@ if "user" not in st.session_state:
 
 # ---------------- SAMPLE CONTENT ----------------
 stream_data = {
-    "IT": ["Python Basics", "Web Development", "Databases", "Cyber Security"],
-    "Healthcare": ["First Aid", "Anatomy", "Patient Care"],
-    "Automotive": ["Engine Basics", "Vehicle Repair"],
-    "Culinary": ["Food Safety", "Cooking Skills"],
+    "Fashion": ["basic tailoring", "blouse stitching", "fashion designing basics"],
+    "Computer skills": ["ms office", " Basic It skills", "Data entry"],
 }
 
 # ---------------- UI ----------------
