@@ -20,16 +20,16 @@ if "user" not in st.session_state:
 
 # ---------------- SAMPLE CONTENT ----------------
 stream_data = {
-    "jewellery making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
-    "Candle And Soap Making": ["scented candles", "organic soaps"],
+    "jewellery making": ["terracotta jewellery", "beaded jewellery", "threaded jewellery"],
+    "Candle And Soap Making": ["scented candle", "organic soap"],
 }
 
 # ---------------- PDF BACKEND MAPPING ----------------
 pdf_map = {
     "jewellery making": {
-        "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta_jewellery.pdf",
-        "beaded jewellery": "lesson_pdfs/jewellery_making/beaded_jewellery.pdf",
-        "thread jewellery": "lesson_pdfs/jewellery_making/thread_jewellery.pdf",
+        "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta.pdf",
+        "beaded jewellery": "lesson_pdfs/jewellery_making/beaded.pdf",
+        "thread jewellery": "lesson_pdfs/jewellery_making/threaded.pdf",
     },
     "Candle And Soap Making": {
         "scented candles": "lesson_pdfs/candle_and_soap_making/scented_candles.pdf",
