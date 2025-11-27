@@ -35,7 +35,6 @@ if not st.session_state.login:
 
     new_user = st.text_input("Create Username")
     new_pass = st.text_input("Create Password", type="password")
-    language = st.selectbox("Preferred Language", ["English"])
     stream = st.selectbox("Vocational Stream", list(stream_data.keys()))
 
     if st.button("Register & Continue"):
@@ -43,7 +42,6 @@ if not st.session_state.login:
             user_data = {
                 "username": new_user,
                 "password": new_pass,
-                "language": language,
                 "stream": stream,
             }
 
