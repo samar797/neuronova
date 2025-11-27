@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+
 # ---------------- CONFIG ----------------
 st.set_page_config(
     page_title="AI Vocational Tutor",
@@ -21,6 +22,19 @@ if "user" not in st.session_state:
 stream_data = {
     "jewellery making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
     "Candle And Soap Making": ["scented candles", "organic soaps"],
+}
+
+# ---------------- PDF BACKEND MAPPING ----------------
+pdf_map = {
+    "jewellery making": {
+        "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta_jewellery.pdf",
+        "beaded jewellery": "lesson_pdfs/jewellery_making/beaded_jewellery.pdf",
+        "thread jewellery": "lesson_pdfs/jewellery_making/thread_jewellery.pdf",
+    },
+    "Candle And Soap Making": {
+        "scented candles": "lesson_pdfs/candle_and_soap_making/scented_candles.pdf",
+        "organic soaps": "lesson_pdfs/candle_and_soap_making/organic_soaps.pdf",
+    }
 }
 
 # ---------------- UI ----------------
@@ -66,28 +80,15 @@ else:
 
     st.divider()
 
-    
+    # ---------------- LESSONS WITH PDF BACKEND ----------------
     st.subheader("📚 Lessons")
 
     for lesson in stream_data[user["stream"]]:
         if st.button(lesson):
-
-            pdf_map = {
-                "jewellery making": {
-                    "terracotta jewellery": "lesson_pdfs/jewellery_making/terracotta_jewellery.pdf",
-                    "beaded jewellery": "lesson_pdfs/jewellery_making/beaded_jewellery.pdf",
-                    "thread jewellery": "lesson_pdfs/jewellery_making/thread_jewellery.pdf",
-                },
-                "Candle And Soap Making": {
-                    "scented candles": "lesson_pdfs/candle_and_soap_making/scented_candles.pdf",
-                    "organic soaps": "lesson_pdfs/candle_and_soap_making/organic_soaps.pdf",
-                }
-            }
-
             pdf_path = pdf_map[user["stream"]][lesson]
 
             if os.path.exists(pdf_path):
-                st.success(f"Opening PDF for: {lesson}")
+                st.success(f"PDF Ready: {lesson}")
 
                 with open(pdf_path, "rb") as f:
                     st.download_button(
@@ -97,7 +98,7 @@ else:
                         mime="application/pdf"
                     )
             else:
-                st.error("PDF not found. Please check file upload.")
+                st.error("❌ PDF not found. Please upload it on GitHub.")
 
     st.divider()
 
