@@ -20,22 +20,30 @@ if "user" not in st.session_state:
 
 # ---------------- SAMPLE CONTENT ----------------
 stream_data = {
-    "jewellery making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
-    "Candle And Soap Making": ["scented candles", "organic soaps"],
+    "Jewellery Making": [
+        "beaded jewellery",
+        "terracotta jewellery",
+        "thread jewellery"
+    ],
+    "Candle And Soap Making": [
+        "scented candle",
+        "organic soap"
+    ],
 }
 
 # ---------------- PDF BACKEND MAPPING (MATCHES YOUR GITHUB FOLDERS) ----------------
 pdf_map = {
-    "jewellery making": {
-        "terracotta jewellery": "lesson_pdfs/jewellery making/terracotta.pdf",
-        "beaded jewellery": "lesson_pdfs/jewellery making/beaded.pdf",
-        "thread jewellery": "lesson_pdfs/jewellery making/thread.pdf",
+    "Jewellery Making": {
+        "beaded jewellery": "lesson_pdfs/Jewellery_Making/beaded.pdf",
+        "terracotta jewellery": "lesson_pdfs/Jewellery_Making/terracotta.pdf",
+        "thread jewellery": "lesson_pdfs/Jewellery_Making/threaded.pdf",
     },
     "Candle And Soap Making": {
-        "scented candles": "lesson_pdfs/Candle_And_Soap_Making/scented candle.pdf",
-        "organic soaps": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
+        "scented candle": "lesson_pdfs/Candle_And_Soap_Making/scented candle.pdf",
+        "organic soap": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
     }
 }
+
 
 # ---------------- helper ----------------
 def safe_get_stream_for_user(user_obj):
