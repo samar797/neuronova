@@ -20,31 +20,31 @@ if "chat_history" not in st.session_state:
 
 
 stream_data = {
-    "Jewellery Making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
-    "Candle And Soap Making": ["scented candle", "organic soap"],
+    "Jewellery Making": ["Terracotta Jewellery", "Beaded Jewellery", "Thread Jewellery"],
+    "Candle And Soap Making": ["Scented Candle", "Organic Soap"],
 }
 
 pdf_map = {
     "Jewellery Making": {
-        "terracotta jewellery": "lesson_pdfs/Jewellery_Making/terracotta.pdf",
-        "beaded jewellery": "lesson_pdfs/Jewellery_Making/beaded.pdf",
-        "thread jewellery": "lesson_pdfs/Jewellery_Making/threaded.pdf",
+        "Terracotta Jewellery": "lesson_pdfs/Jewellery_Making/terracotta.pdf",
+        "Beaded Jewellery": "lesson_pdfs/Jewellery_Making/beaded.pdf",
+        "Thread Jewellery": "lesson_pdfs/Jewellery_Making/threaded.pdf",
     },
     "Candle And Soap Making": {
-        "scented candle": "lesson_pdfs/Candle_And_Soap_Making/scented candle.pdf",
-        "organic soap": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
+        "Scented Candle": "lesson_pdfs/Candle_And_Soap_Making/scented candle.pdf",
+        "Organic Soap": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
     }
 }
 
 shorts_map = {
     "Jewellery Making": {
-        "terracotta jewellery": "https://youtube.com/embed/xLnv2H6oIyE?si=gLYrTJJF4cfoS_QP",
-        "beaded jewellery": "https://youtube.com/embed/cfzRxrWtOKY?si=gLZ3yPZpyFFzeBXK",
-        "thread jewellery": "https://youtube.com/embed/ZI0i_b8fhu4?si=NQIjN6dB00R3vlbX",
+        "Terracotta Jewellery": "https://youtube.com/embed/xLnv2H6oIyE?si=gLYrTJJF4cfoS_QP",
+        "Beaded Jewellery": "https://youtube.com/embed/cfzRxrWtOKY?si=gLZ3yPZpyFFzeBXK",
+        "Thread Jewellery": "https://youtube.com/embed/ZI0i_b8fhu4?si=NQIjN6dB00R3vlbX",
     },
     "Candle And Soap Making": {
-        "scented candle": "https://youtube.com/embed/0KIQrn-NuL0?si=jN7KeAQD1s7Np7tJ",
-        "organic soap": "https://youtube.com/embed/MxXXWymDpuc?si=KibxUlnF6gIzMlMU",
+        "Scented Candle": "https://youtube.com/embed/0KIQrn-NuL0?si=jN7KeAQD1s7Np7tJ",
+        "Organic Soap": "https://youtube.com/embed/MxXXWymDpuc?si=KibxUlnF6gIzMlMU",
     }
 }
 
@@ -58,7 +58,7 @@ def safe_stream(s):
     return None
 
 
-st.title("AI Vocational Tutor")
+st.title("🤖AI Vocational Tutor")
 st.caption("Smart Learning for Vocational Students")
 
 
