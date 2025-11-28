@@ -19,6 +19,9 @@ if "users" not in st.session_state:
 if "user" not in st.session_state:
     st.session_state.user = None
 
+if "quiz_score" not in st.session_state:
+    st.session_state.quiz_score = None
+
 if "quiz_done" not in st.session_state:
     st.session_state.quiz_done = False
 
@@ -70,10 +73,10 @@ def safe_get_stream_for_user(user_obj):
 st.title("AI Vocational Tutor")
 st.caption("Smart Learning for Vocational Students")
 
-# -------------------------------
-# ACCOUNT CREATION SCREEN
-# -------------------------------
-if not st.session_state.login and not st.session_state.quiz_done:
+# ----------------------------------------------
+# ACCOUNT CREATION SCREEN  (Before Quiz)
+# ----------------------------------------------
+if not st.session_state.login:
 
     st.subheader("Create Account")
 
@@ -97,58 +100,49 @@ if not st.session_state.login and not st.session_state.quiz_done:
             st.warning("Please fill all fields.")
 
 
-# -------------------------------
-# SDG QUIZ PAGE (after register)
-# -------------------------------
+# ----------------------------------------------
+# SDG QUIZ PAGE
+# ----------------------------------------------
 elif st.session_state.login and not st.session_state.quiz_done:
 
-    st.subheader("🌍 SDG Awareness Quiz")
+    st.subheader("🌍 SDG Awareness Quiz (Each question = 2 marks)")
+    st.write("Please answer all questions.")
 
-    st.write("Answer these 5 questions before accessing your lessons.")
-    st.write("Each question carries **2 marks**.")
-
-    # No pre-selected answer (index = None)
     q1 = st.radio("1. What does SDG stand for?",
-                  ["Sustainable Development Goals", "Social Development Guide", "Science Development Group"],
-                  index=None)
+                  ["Sustainable Development Goals", "Social Development Guide", "Science Development Group"], index=None)
 
     q2 = st.radio("2. How many SDGs are there?",
-                  ["10", "15", "17"],
-                  index=None)
+                  ["10", "15", "17"], index=None)
 
     q3 = st.radio("3. SDG 4 focuses on:",
-                  ["Quality Education", "Clean Water", "Zero Hunger"],
-                  index=None)
+                  ["Quality Education", "Clean Water", "Zero Hunger"], index=None)
 
     q4 = st.radio("4. SDG 12 promotes:",
-                  ["Responsible Consumption & Production", "Gender Equality", "Life Below Water"],
-                  index=None)
+                  ["Responsible Consumption & Production", "Gender Equality", "Life Below Water"], index=None)
 
     q5 = st.radio("5. SDG 3 is related to:",
-                  ["Good Health and Well-being", "Affordable Energy", "Industry Innovation"],
-                  index=None)
+                  ["Good Health and Well-being", "Affordable Energy", "Industry Innovation"], index=None)
 
     if st.button("Submit Quiz"):
-        # Check if all answers selected
         if None in [q1, q2, q3, q4, q5]:
             st.warning("⚠ Please answer all questions before submitting.")
         else:
             score = 0
-
             if q1 == "Sustainable Development Goals": score += 2
             if q2 == "17": score += 2
             if q3 == "Quality Education": score += 2
             if q4 == "Responsible Consumption & Production": score += 2
             if q5 == "Good Health and Well-being": score += 2
 
+            st.session_state.quiz_score = score
             st.session_state.quiz_done = True
-            st.success(f"Quiz Completed! Your Score: **{score}/10**")
+            st.success("Quiz Submitted Successfully!")
             st.rerun()
 
 
-# -------------------------------
-# MAIN APP (after quiz)
-# -------------------------------
+# ----------------------------------------------
+# MAIN APP (Lessons + Score Display)
+# ----------------------------------------------
 else:
     user = st.session_state.user
 
@@ -157,6 +151,7 @@ else:
         if st.button("Restart"):
             st.session_state.login = False
             st.session_state.quiz_done = False
+            st.session_state.quiz_score = None
             st.rerun()
     else:
         st.success(f"Welcome {user.get('username')}")
@@ -165,13 +160,37 @@ else:
         if st.button("Logout"):
             st.session_state.login = False
             st.session_state.quiz_done = False
+            st.session_state.quiz_score = None
             st.session_state.user = None
             st.rerun()
 
         st.divider()
-        st.subheader("Lessons")
+        st.subheader("📘 Lessons")
 
         user_stream = safe_get_stream_for_user(user)
 
         if not user_stream:
-            st.er
+            st.error("Invalid stream selected. Please re-register.")
+            st.write("Available streams:", list(stream_data.keys()))
+        else:
+            lessons = stream_data.get(user_stream, [])
+            stream_pdf_dict = pdf_map.get(user_stream, {})
+
+            if not lessons:
+                st.info("No lessons available for your stream yet.")
+            else:
+                for lesson in lessons:
+                    if st.button(lesson):
+                        pdf_path = stream_pdf_dict.get(lesson)
+
+                        if not pdf_path:
+                            st.error("PDF not mapped for this lesson yet.")
+                            continue
+
+                        if os.path.exists(pdf_path):
+                            st.success(f"PDF Loaded: {lesson}")
+                            with open(pdf_path, "rb") as f:
+                                st.download_button(
+                                    label="Download Lesson PDF",
+                                    data=f,
+                                    file_name=os.path.basename(pdf_path),
