@@ -48,6 +48,17 @@ pdf_map = {
         "organic soap": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
     }
 }
+shorts_map = {
+    "Jewellery Making": {
+        "terracotta jewellery": "https://youtube.com/embed/xLnv2H6oIyE?si=gLYrTJJF4cfoS_QP",
+        "beaded jewellery": "https://youtube.com/embed/cfzRxrWtOKY?si=gLZ3yPZpyFFzeBXK",
+        "thread jewellery": "https://youtube.com/embed/ZI0i_b8fhu4?si=NQIjN6dB00R3vlbX",
+    },
+    "Candle And Soap Making": {
+        "scented candle": "https://youtube.com/embed/0KIQrn-NuL0?si=jN7KeAQD1s7Np7tJ",
+        "organic soap": "https://youtube.com/embed/MxXXWymDpuc?si=KibxUlnF6gIzMlMU",
+    }
+}
 
 # ------------------------
 # Helper
