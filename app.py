@@ -105,34 +105,45 @@ elif st.session_state.login and not st.session_state.quiz_done:
     st.subheader("🌍 SDG Awareness Quiz")
 
     st.write("Answer these 5 questions before accessing your lessons.")
+    st.write("Each question carries **2 marks**.")
 
+    # No pre-selected answer (index = None)
     q1 = st.radio("1. What does SDG stand for?",
-                  ["Sustainable Development Goals", "Social Development Guide", "Science Development Group"])
+                  ["Sustainable Development Goals", "Social Development Guide", "Science Development Group"],
+                  index=None)
 
     q2 = st.radio("2. How many SDGs are there?",
-                  ["10", "15", "17"])
+                  ["10", "15", "17"],
+                  index=None)
 
     q3 = st.radio("3. SDG 4 focuses on:",
-                  ["Quality Education", "Clean Water", "Zero Hunger"])
+                  ["Quality Education", "Clean Water", "Zero Hunger"],
+                  index=None)
 
     q4 = st.radio("4. SDG 12 promotes:",
-                  ["Responsible Consumption & Production", "Gender Equality", "Life Below Water"])
+                  ["Responsible Consumption & Production", "Gender Equality", "Life Below Water"],
+                  index=None)
 
     q5 = st.radio("5. SDG 3 is related to:",
-                  ["Good Health and Well-being", "Affordable Energy", "Industry Innovation"])
+                  ["Good Health and Well-being", "Affordable Energy", "Industry Innovation"],
+                  index=None)
 
     if st.button("Submit Quiz"):
-        score = 0
+        # Check if all answers selected
+        if None in [q1, q2, q3, q4, q5]:
+            st.warning("⚠ Please answer all questions before submitting.")
+        else:
+            score = 0
 
-        if q1 == "Sustainable Development Goals": score += 1
-        if q2 == "17": score += 1
-        if q3 == "Quality Education": score += 1
-        if q4 == "Responsible Consumption & Production": score += 1
-        if q5 == "Good Health and Well-being": score += 1
+            if q1 == "Sustainable Development Goals": score += 2
+            if q2 == "17": score += 2
+            if q3 == "Quality Education": score += 2
+            if q4 == "Responsible Consumption & Production": score += 2
+            if q5 == "Good Health and Well-being": score += 2
 
-        st.session_state.quiz_done = True
-        st.success(f"Quiz Completed! Your Score: {score}/5")
-        st.rerun()
+            st.session_state.quiz_done = True
+            st.success(f"Quiz Completed! Your Score: **{score}/10**")
+            st.rerun()
 
 
 # -------------------------------
@@ -161,38 +172,6 @@ else:
         st.subheader("Lessons")
 
         user_stream = safe_get_stream_for_user(user)
+
         if not user_stream:
-            st.error("Your selected stream is not recognised. Please re-register selecting a valid stream.")
-            st.write("Available streams:", list(stream_data.keys()))
-
-        else:
-            stream_pdf_dict = pdf_map.get(user_stream, {})
-            lessons = stream_data.get(user_stream, [])
-
-            if not lessons:
-                st.info("No lessons configured for your stream yet.")
-            else:
-                for lesson in lessons:
-                    if st.button(lesson):
-                        pdf_path = stream_pdf_dict.get(lesson)
-
-                        if not pdf_path:
-                            st.error("No PDF linked for this lesson yet. (Mapping missing)")
-                            st.write("Mapped lessons:", list(stream_pdf_dict.keys()))
-                            continue
-
-                        st.write("Looking for PDF:", pdf_path)
-                        st.write("File exists:", os.path.exists(pdf_path))
-
-                        if os.path.exists(pdf_path):
-                            st.success(f"PDF Ready: {lesson}")
-                            with open(pdf_path, "rb") as f:
-                                st.download_button(
-                                    label="Download Lesson PDF",
-                                    data=f,
-                                    file_name=os.path.basename(pdf_path),
-                                    mime="application/pdf"
-                                )
-                        else:
-                            st.error("PDF file not found. Please upload it to GitHub.")
-                            st.write("Expected path:", pdf_path)
+            st.er
