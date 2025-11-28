@@ -1,3 +1,4 @@
 streamlit
 pypdf
-pip install openai
+streamlit
+openai
