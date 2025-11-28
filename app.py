@@ -2,8 +2,8 @@ import streamlit as st
 import os
 import openai
 
-openai.api_key = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
+# Load OpenAI API key from Streamlit secrets
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(
     page_title="AI Vocational Tutor",
@@ -26,19 +26,15 @@ if "quiz_done" not in st.session_state:
 if "quiz_score" not in st.session_state:
     st.session_state.quiz_score = None
 
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
 # ------------------------
 # STREAMS + PDFs
 # ------------------------
 stream_data = {
-    "Jewellery Making": [
-        "terracotta jewellery",
-        "beaded jewellery",
-        "thread jewellery"
-    ],
-    "Candle And Soap Making": [
-        "scented candle",
-        "organic soap"
-    ],
+    "Jewellery Making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
+    "Candle And Soap Making": ["scented candle", "organic soap"],
 }
 
 pdf_map = {
@@ -66,7 +62,7 @@ shorts_map = {
 }
 
 # ------------------------
-# Helper
+# Helper Functions
 # ------------------------
 def safe_stream(s):
     if not s:
@@ -75,7 +71,6 @@ def safe_stream(s):
         if key.lower() == s.lower():
             return key
     return None
-
 
 # ------------------------
 # UI
@@ -89,23 +84,17 @@ st.caption("Smart Learning for Vocational Students")
 if not st.session_state.login:
 
     st.subheader("Create Account")
-
     username = st.text_input("Create Username")
     password = st.text_input("Create Password", type="password")
     stream = st.selectbox("Select Vocational Stream", list(stream_data.keys()))
 
     if st.button("Register & Continue"):
         if username and password:
-            st.session_state.user = {
-                "username": username,
-                "password": password,
-                "stream": stream
-            }
+            st.session_state.user = {"username": username, "password": password, "stream": stream}
             st.session_state.login = True
             st.rerun()
         else:
             st.warning("Please fill all fields.")
-
 
 # ----------------------------------
 # SDG QUIZ PAGE
@@ -115,12 +104,29 @@ elif st.session_state.login and not st.session_state.quiz_done:
     st.subheader("🌍 SDG Quiz (Each question = 2 marks)")
     st.write("Answer all questions to continue.")
 
-    q1 = st.radio("1. Which skill promotes traditional learning that supports creativity and income generation:", 
-                   ["Communicative english","Jewellery making","Computer skills","Soap making"], index=None)
-    q2 = st.radio("2. Which learning teaches practical skills that can lead to self-employment?:", ["Candle making","Maths learning", "Spoken english", "Scientific learning"], index=None)
-    q3 = st.radio("3. Which skill helps students learn chemistry and entrepreneurship together?:", ["Jewellery making","Computer skills","Soap making","Baking"], index=None)
-    q4 = st.radio("4. SDG 4 promotes vocational and technical skills. Which activity is an example of this?:", ["Jewellery making", "Watching TV", "Playing video games", "Listening to music"], index=None)
-    q5 = st.radio("5. How can jewellery making help students achieve SDG 4’s aim of “lifelong learning?", ["By teaching a skill they can continue improving and earning from","By forcing them to memorize facts"," By limiting creativity","Only sports facilities"],index=None)
+    q1 = st.radio(
+        "1. Which skill promotes traditional learning that supports creativity and income generation:",
+        ["Communicative english","Jewellery making","Computer skills","Soap making"], index=None
+    )
+    q2 = st.radio(
+        "2. Which learning teaches practical skills that can lead to self-employment?:",
+        ["Candle making","Maths learning", "Spoken english", "Scientific learning"], index=None
+    )
+    q3 = st.radio(
+        "3. Which skill helps students learn chemistry and entrepreneurship together?:",
+        ["Jewellery making","Computer skills","Soap making","Baking"], index=None
+    )
+    q4 = st.radio(
+        "4. SDG 4 promotes vocational and technical skills. Which activity is an example of this?:",
+        ["Jewellery making", "Watching TV", "Playing video games", "Listening to music"], index=None
+    )
+    q5 = st.radio(
+        "5. How can jewellery making help students achieve SDG 4’s aim of “lifelong learning?",
+        ["By teaching a skill they can continue improving and earning from",
+         "By forcing them to memorize facts",
+         "By limiting creativity",
+         "Only sports facilities"], index=None
+    )
 
     if st.button("Submit Quiz"):
         if None in [q1, q2, q3, q4, q5]:
@@ -138,7 +144,6 @@ elif st.session_state.login and not st.session_state.quiz_done:
             st.success("Quiz Submitted!")
             st.rerun()
 
-
 # ----------------------------------
 # LESSONS PAGE (AFTER QUIZ)
 # ----------------------------------
@@ -155,22 +160,21 @@ else:
         st.session_state.quiz_done = False
         st.session_state.quiz_score = None
         st.session_state.user = None
+        st.session_state.chat_history = []
         st.rerun()
 
     st.subheader("📘 Lessons")
-
     lessons = stream_data.get(stream_name, [])
 
     if not lessons:
         st.error("⚠ No lessons found for your stream (Check spelling).")
 
-    # Show ALL lesson cards
+    # Show lessons with PDF and YouTube Shorts
     for lesson in lessons:
         st.write(f"### 📗 {lesson}")
 
         # PDF DOWNLOAD
         pdf_path = pdf_map[stream_name].get(lesson)
-
         if os.path.exists(pdf_path):
             with open(pdf_path, "rb") as f:
                 st.download_button(
@@ -185,7 +189,6 @@ else:
 
         # YOUTUBE SHORT EMBED
         video_url = shorts_map[stream_name].get(lesson)
-
         if video_url:
             st.write("🎬 **Watch Tutorial Video:**")
             st.components.v1.iframe(video_url, height=380)
@@ -200,10 +203,7 @@ else:
     st.subheader("🤖 AI Vocational Tutor")
     st.write("Ask any question about your vocational lesson (Jewellery / Candle / Soap etc).")
 
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
-
-    user_question = st.text_input("Ask your question here")
+    user_question = st.text_input("Ask your question here", key="user_question_input")
 
     if st.button("Ask AI"):
         if user_question:
@@ -211,16 +211,15 @@ else:
 
             try:
                 response = openai.ChatCompletion.create(
-                    model="gpt-4o-mini",
+                    model="gpt-4o-mini",  # or "gpt-3.5-turbo"
                     messages=st.session_state.chat_history
                 )
-
                 ai_answer = response["choices"][0]["message"]["content"]
                 st.session_state.chat_history.append({"role": "assistant", "content": ai_answer})
-
             except Exception as e:
                 st.error(f"Error: {e}")
 
+    # Display chat history
     for chat in st.session_state.chat_history:
         if chat["role"] == "user":
             st.markdown(f"**🧑‍🎓 You:** {chat['content']}")
