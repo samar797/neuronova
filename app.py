@@ -99,23 +99,23 @@ elif st.session_state.login and not st.session_state.quiz_done:
     st.subheader("🌍 SDG Quiz (Each question = 2 marks)")
     st.write("Answer all questions to continue.")
 
-    q1 = st.radio("1. SDG stands for:", 
-                   ["Sustainable Development Goals", "Social Development Guide", "Science Development Group"], index=None)
-    q2 = st.radio("2. Total number of SDGs:", ["10", "15", "17"], index=None)
-    q3 = st.radio("3. SDG 4:", ["Quality Education", "Clean Water", "Zero Hunger"], index=None)
-    q4 = st.radio("4. SDG 12:", ["Responsible Consumption & Production", "Gender Equality", "Life Below Water"], index=None)
-    q5 = st.radio("5. SDG 3:", ["Good Health and Well-being", "Affordable Energy", "Industry Innovation"], index=None)
+    q1 = st.radio("1. What is the main goal of SDG 4:", 
+                   ["Ensure healthy lives", "Promote lifelong learning and quality education", "Achieve Gender Equality","End hunger"], index=None)
+    q2 = st.radio("2. By which year does SDG 4 aim to achieve universal primary and secondary education?:", ["2025", "2030", "2050", "2040"], index=None)
+    q3 = st.radio("3. Which group does SDG 4 emphasize for equal access to education?:","options": ["Only adults","Only people in cities","Girls, children with disabilities, and vulnerable groups","Only university students"], index=None)
+    q4 = st.radio("4. Which skill is highlighted by SDG 4 as important for employment?:", ["Basic reading", "Technical and vocational skills", "Public speaking", "Sports skills"], index=None)
+    q5 = st.radio("5. SDG 4 supports the building of safe and inclusive school environments. What does this include?", "options": ["Free uniforms","Access to internet and electricity","More school holidays","Only sports facilities"],index=None)
 
     if st.button("Submit Quiz"):
         if None in [q1, q2, q3, q4, q5]:
             st.warning("Please answer all questions.")
         else:
             score = 0
-            if q1 == "Sustainable Development Goals": score += 2
-            if q2 == "17": score += 2
-            if q3 == "Quality Education": score += 2
-            if q4 == "Responsible Consumption & Production": score += 2
-            if q5 == "Good Health and Well-being": score += 2
+            if q1 == "Promote lifelong learning and quality education for all": score += 2
+            if q2 == "2030": score += 2
+            if q3 == "Girls, children with disabilities, and vulnerable groups": score += 2
+            if q4 == "Technical and vocational skills": score += 2
+            if q5 == "Access to internet and electricity": score += 2
 
             st.session_state.quiz_score = score
             st.session_state.quiz_done = True
