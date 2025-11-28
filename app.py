@@ -2,8 +2,8 @@ import streamlit as st
 import os
 import openai
 
-# Load API key from Streamlit secrets
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 
 st.set_page_config(
     page_title="AI Vocational Tutor",
