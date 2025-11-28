@@ -1,5 +1,9 @@
 import streamlit as st
 import os
+import openai
+
+# Load API key from Streamlit secrets
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(
     page_title="AI Vocational Tutor",
@@ -192,8 +196,48 @@ else:
             st.warning("No video available for this lesson.")
 
         st.divider()
+            for lesson in lessons:
+        st.write(f"### 📗 {lesson}")
+        pdf_path = pdf_map[stream_name].get(lesson)
+        ...
+        st.divider()
+
+    # ----------------------------------
+    # AI VOCATIONAL TUTOR
+    # ----------------------------------
+    st.subheader("🤖 AI Vocational Tutor")
+    st.write("Ask any question about your vocational lesson (Jewellery / Candle / Soap etc).")
+
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+
+    user_question = st.text_input("Ask your question here")
+
+    if st.button("Ask AI"):
+        if user_question:
+            st.session_state.chat_history.append({"role": "user", "content": user_question})
+
+            try:
+                response = openai.ChatCompletion.create(
+                    model="gpt-4o-mini",
+                    messages=st.session_state.chat_history
+                )
+
+                ai_answer = response["choices"][0]["message"]["content"]
+                st.session_state.chat_history.append({"role": "assistant", "content": ai_answer})
+
+            except Exception as e:
+                st.error(f"Error: {e}")
+
+    for chat in st.session_state.chat_history:
+        if chat["role"] == "user":
+            st.markdown(f"**🧑‍🎓 You:** {chat['content']}")
+        else:
+            st.markdown(f"**🤖 AI Tutor:** {chat['content']}")
 
     # SHOW SCORE BELOW LESSONS
     if st.session_state.quiz_score is not None:
         st.subheader("📝 Your SDG Quiz Score")
         st.success(f"Score: **{st.session_state.quiz_score}/10**")
+
+
