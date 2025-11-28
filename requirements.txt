@@ -1,4 +1,4 @@
 streamlit
 pypdf
 
-python -m pip install streamlit openai
+
