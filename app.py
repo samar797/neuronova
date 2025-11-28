@@ -137,26 +137,15 @@ elif st.session_state.login and not st.session_state.quiz_done:
 # ----------------------------------
 # LESSONS & AI TUTOR PAGE
 # ----------------------------------
-else:
-    user = st.session_state.user
-    stream_name = safe_stream(user["stream"])
+# Show quiz score as a progress bar if quiz is done
+if st.session_state.quiz_done and st.session_state.quiz_score is not None:
+    score = st.session_state.quiz_score
+    max_score = 10  # Each question = 2 marks, 5 questions
+    percentage = int((score / max_score) * 100)
 
-    st.success(f"Welcome {user['username']}")
-    st.info(f"Stream: {stream_name}")
-
-    if st.button("Logout"):
-        st.session_state.login = False
-        st.session_state.quiz_done = False
-        st.session_state.quiz_score = None
-        st.session_state.user = None
-        st.session_state.chat_history = []
-        st.rerun()
-
-    st.subheader("📘 Lessons")
-    lessons = stream_data.get(stream_name, [])
-
-    if not lessons:
-        st.error("⚠ No lessons found for your stream (Check spelling).")
+    st.subheader("🏆 Your Quiz Score")
+    st.metric(label="Score", value=f"{score} / {max_score}", delta=f"{percentage}%")
+    st.progress(percentage)
 
     # Show lessons with PDF and YouTube Shorts
     for lesson in lessons:
