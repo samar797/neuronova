@@ -3,7 +3,7 @@ import os
 
 st.set_page_config(
     page_title="AI Vocational Tutor",
-    page_icon="🤖📚",
+    page_icon="",
     layout="centered"
 )
 
@@ -139,14 +139,14 @@ else:
     
     
     if st.session_state.quiz_score is not None:
-        st.subheader("📝 Your Quiz Score")
+        st.subheader("Your Quiz Score")
         st.info(f"You scored **{st.session_state.quiz_score} / 10** points.")
 
     st.subheader("Lessons")
     lessons = stream_data.get(stream_name, [])
 
     if not lessons:
-        st.error("⚠ No lessons found for your stream (Check spelling).")
+        st.error(" No lessons found for your stream (Check spelling).")
 
    
     for lesson in lessons:
