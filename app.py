@@ -104,7 +104,7 @@ elif st.session_state.login and not st.session_state.quiz_done:
     q2 = st.radio("2. By which year does SDG 4 aim to achieve universal primary and secondary education?:", ["2025", "2030", "2050", "2040"], index=None)
     q3 = st.radio("3. Which group does SDG 4 emphasize for equal access to education?:", ["Only adults","Only people in cities","Girls, children with disabilities, and vulnerable groups","Only university students"], index=None)
     q4 = st.radio("4. Which skill is highlighted by SDG 4 as important for employment?:", ["Basic reading", "Technical and vocational skills", "Public speaking", "Sports skills"], index=None)
-    q5 = st.radio("5. SDG 4 supports the building of safe and inclusive school environments. What does this include?", "options": ["Free uniforms","Access to internet and electricity","More school holidays","Only sports facilities"],index=None)
+    q5 = st.radio("5. SDG 4 supports the building of safe and inclusive school environments. What does this include?", ["Free uniforms","Access to internet and electricity","More school holidays","Only sports facilities"],index=None)
 
     if st.button("Submit Quiz"):
         if None in [q1, q2, q3, q4, q5]:
