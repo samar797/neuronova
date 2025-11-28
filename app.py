@@ -52,6 +52,7 @@ pdf_map = {
         "organic soap": "lesson_pdfs/Candle_And_Soap_Making/organic soap.pdf",
     }
 }
+
 shorts_map = {
     "Jewellery Making": {
         "terracotta jewellery": "https://youtube.com/embed/xLnv2H6oIyE?si=gLYrTJJF4cfoS_QP",
@@ -130,7 +131,7 @@ elif st.session_state.login and not st.session_state.quiz_done:
             if q2 == "Candle making": score += 2
             if q3 == "Soap making": score += 2
             if q4 == "Jewellery making": score += 2
-            if q5 == "By teaching a skill they can continue improving and earning": score += 2
+            if q5 == "By teaching a skill they can continue improving and earning from": score += 2
 
             st.session_state.quiz_score = score
             st.session_state.quiz_done = True
@@ -167,9 +168,7 @@ else:
     for lesson in lessons:
         st.write(f"### 📗 {lesson}")
 
-        # --------------------------
         # PDF DOWNLOAD
-        # --------------------------
         pdf_path = pdf_map[stream_name].get(lesson)
 
         if os.path.exists(pdf_path):
@@ -184,9 +183,7 @@ else:
         else:
             st.error(f"PDF NOT FOUND: {pdf_path}")
 
-        # --------------------------
         # YOUTUBE SHORT EMBED
-        # --------------------------
         video_url = shorts_map[stream_name].get(lesson)
 
         if video_url:
@@ -195,11 +192,6 @@ else:
         else:
             st.warning("No video available for this lesson.")
 
-        st.divider()
-            for lesson in lessons:
-        st.write(f"### 📗 {lesson}")
-        pdf_path = pdf_map[stream_name].get(lesson)
-        ...
         st.divider()
 
     # ----------------------------------
@@ -239,5 +231,3 @@ else:
     if st.session_state.quiz_score is not None:
         st.subheader("📝 Your SDG Quiz Score")
         st.success(f"Score: **{st.session_state.quiz_score}/10**")
-
-
