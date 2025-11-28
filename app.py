@@ -99,23 +99,23 @@ elif st.session_state.login and not st.session_state.quiz_done:
     st.subheader("🌍 SDG Quiz (Each question = 2 marks)")
     st.write("Answer all questions to continue.")
 
-    q1 = st.radio("1. What is the main goal of SDG 4:", 
-                   ["Ensure healthy lives", "Promote lifelong learning and quality education", "Achieve Gender Equality","End hunger"], index=None)
-    q2 = st.radio("2. By which year does SDG 4 aim to achieve universal primary and secondary education?:", ["2025", "2030", "2050", "2040"], index=None)
-    q3 = st.radio("3. Which group does SDG 4 emphasize for equal access to education?:", ["Only adults","Only people in cities","Girls, children with disabilities, and vulnerable groups","Only university students"], index=None)
-    q4 = st.radio("4. Which skill is highlighted by SDG 4 as important for employment?:", ["Basic reading", "Technical and vocational skills", "Public speaking", "Sports skills"], index=None)
-    q5 = st.radio("5. SDG 4 supports the building of safe and inclusive school environments. What does this include?", ["Free uniforms","Access to internet and electricity","More school holidays","Only sports facilities"],index=None)
+    q1 = st.radio("1. Which skill promotes traditional learning that supports creativity and income generation:", 
+                   ["Communicative english","Jewellery making","Computer skills","Soap making"], index=None)
+    q2 = st.radio("2. Which learning teaches practical skills that can lead to self-employment?:", ["Candle making","Maths learning", "Spoken english", "Scientific learning"], index=None)
+    q3 = st.radio("3. Which skill helps students learn chemistry and entrepreneurship together?:", ["Jewellery making","Computer skills","Soap making","Baking"], index=None)
+    q4 = st.radio("4. SDG 4 promotes vocational and technical skills. Which activity is an example of this?:", ["Jewellery making", "Watching TV", "Playing video games", "Listening to music"], index=None)
+    q5 = st.radio("5. How can jewellery making help students achieve SDG 4’s aim of “lifelong learning?", ["By teaching a skill they can continue improving and earning from","By forcing them to memorize facts"," By limiting creativity","Only sports facilities"],index=None)
 
     if st.button("Submit Quiz"):
         if None in [q1, q2, q3, q4, q5]:
             st.warning("Please answer all questions.")
         else:
             score = 0
-            if q1 == "Promote lifelong learning and quality education for all": score += 2
-            if q2 == "2030": score += 2
-            if q3 == "Girls, children with disabilities, and vulnerable groups": score += 2
-            if q4 == "Technical and vocational skills": score += 2
-            if q5 == "Access to internet and electricity": score += 2
+            if q1 == "Jewellery making": score += 2
+            if q2 == "Candle making": score += 2
+            if q3 == "Soap making": score += 2
+            if q4 == "Jewellery making": score += 2
+            if q5 == "By teaching a skill they can continue improving and earning": score += 2
 
             st.session_state.quiz_score = score
             st.session_state.quiz_done = True
