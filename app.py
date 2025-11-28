@@ -3,13 +3,10 @@ import os
 
 st.set_page_config(
     page_title="AI Vocational Tutor",
-    page_icon="🎓",
+    page_icon="🤖📚",
     layout="centered"
 )
 
-# ------------------------
-# SESSION SETUP
-# ------------------------
 if "login" not in st.session_state:
     st.session_state.login = False
 if "user" not in st.session_state:
@@ -21,9 +18,7 @@ if "quiz_score" not in st.session_state:
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# ------------------------
-# STREAMS + PDFs
-# ------------------------
+
 stream_data = {
     "Jewellery Making": ["terracotta jewellery", "beaded jewellery", "thread jewellery"],
     "Candle And Soap Making": ["scented candle", "organic soap"],
@@ -53,9 +48,7 @@ shorts_map = {
     }
 }
 
-# ------------------------
-# Helper Functions
-# ------------------------
+
 def safe_stream(s):
     if not s:
         return None
@@ -64,15 +57,11 @@ def safe_stream(s):
             return key
     return None
 
-# ------------------------
-# UI
-# ------------------------
+
 st.title("AI Vocational Tutor")
 st.caption("Smart Learning for Vocational Students")
 
-# ----------------------------------
-# REGISTER PAGE
-# ----------------------------------
+
 if not st.session_state.login:
     st.subheader("Create Account")
     username = st.text_input("Create Username")
@@ -87,11 +76,9 @@ if not st.session_state.login:
         else:
             st.warning("Please fill all fields.")
 
-# ----------------------------------
-# SDG QUIZ PAGE
-# ----------------------------------
+
 elif st.session_state.login and not st.session_state.quiz_done:
-    st.subheader("🌍 SDG Quiz (Each question = 2 marks)")
+    st.subheader("SDG Quiz (Each question = 2 marks)")
     st.write("Answer all questions to continue.")
 
     q1 = st.radio(
@@ -134,9 +121,7 @@ elif st.session_state.login and not st.session_state.quiz_done:
             st.success("Quiz Submitted!")
             st.rerun()
 
-# ----------------------------------
-# LESSONS & AI TUTOR PAGE
-# ----------------------------------
+
 else:
     user = st.session_state.user
     stream_name = safe_stream(user["stream"])
@@ -152,24 +137,22 @@ else:
         st.session_state.chat_history = []
         st.rerun()
     
-    # -------------------------
-    # SHOW QUIZ SCORE FIRST
-    # -------------------------
+    
     if st.session_state.quiz_score is not None:
         st.subheader("📝 Your Quiz Score")
         st.info(f"You scored **{st.session_state.quiz_score} / 10** points.")
 
-    st.subheader("📘 Lessons")
+    st.subheader("Lessons")
     lessons = stream_data.get(stream_name, [])
 
     if not lessons:
         st.error("⚠ No lessons found for your stream (Check spelling).")
 
-    # Show lessons with PDF and YouTube Shorts
+   
     for lesson in lessons:
-        st.write(f"### 📗 {lesson}")
+        st.write(f"### {lesson}")
 
-        # PDF DOWNLOAD
+        
         pdf_path = pdf_map[stream_name].get(lesson)
         if os.path.exists(pdf_path):
             with open(pdf_path, "rb") as f:
@@ -183,10 +166,10 @@ else:
         else:
             st.error(f"PDF NOT FOUND: {pdf_path}")
 
-        # YOUTUBE SHORT EMBED
+        
         video_url = shorts_map[stream_name].get(lesson)
         if video_url:
-            st.write("🎬 **Watch Tutorial Video:**")
+            st.write("**Watch Tutorial Video:**")
             st.components.v1.iframe(video_url, height=380)
         else:
             st.warning("No video available for this lesson.")
