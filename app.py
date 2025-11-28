@@ -57,7 +57,7 @@ def safe_stream(s):
     return None
 
 
-st.title("🤖AI Vocational Tutor")
+st.title("AI Vocational Tutor")
 st.caption("Smart Learning for Vocational Students")
 
 
