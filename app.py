@@ -16,16 +16,12 @@ st.set_page_config(
 # ------------------------
 if "login" not in st.session_state:
     st.session_state.login = False
-
 if "user" not in st.session_state:
     st.session_state.user = None
-
 if "quiz_done" not in st.session_state:
     st.session_state.quiz_done = False
-
 if "quiz_score" not in st.session_state:
     st.session_state.quiz_score = None
-
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
@@ -82,7 +78,6 @@ st.caption("Smart Learning for Vocational Students")
 # REGISTER PAGE
 # ----------------------------------
 if not st.session_state.login:
-
     st.subheader("Create Account")
     username = st.text_input("Create Username")
     password = st.text_input("Create Password", type="password")
@@ -100,7 +95,6 @@ if not st.session_state.login:
 # SDG QUIZ PAGE
 # ----------------------------------
 elif st.session_state.login and not st.session_state.quiz_done:
-
     st.subheader("🌍 SDG Quiz (Each question = 2 marks)")
     st.write("Answer all questions to continue.")
 
@@ -145,10 +139,9 @@ elif st.session_state.login and not st.session_state.quiz_done:
             st.rerun()
 
 # ----------------------------------
-# LESSONS PAGE (AFTER QUIZ)
+# LESSONS & AI TUTOR PAGE
 # ----------------------------------
 else:
-
     user = st.session_state.user
     stream_name = safe_stream(user["stream"])
 
@@ -201,7 +194,7 @@ else:
     # AI VOCATIONAL TUTOR
     # ----------------------------------
     st.subheader("🤖 AI Vocational Tutor")
-    st.write("Ask any question about your vocational lesson (Jewellery / Candle / Soap etc).")
+    st.write("Ask any question about your vocational lesson.")
 
     user_question = st.text_input("Ask your question here", key="user_question_input")
 
@@ -211,7 +204,7 @@ else:
 
             try:
                 response = openai.ChatCompletion.create(
-                    model="gpt-4o-mini",  # or "gpt-3.5-turbo"
+                    model="gpt-4o-mini",
                     messages=st.session_state.chat_history
                 )
                 ai_answer = response["choices"][0]["message"]["content"]
