@@ -154,15 +154,18 @@ else:
 
     st.subheader("📘 Lessons")
 
-    # FIX: ENSURE LESSONS ALWAYS SHOW
     lessons = stream_data.get(stream_name, [])
 
     if not lessons:
         st.error("⚠ No lessons found for your stream (Check spelling).")
 
-    # Show ALL lesson buttons (not depending on clicking)
+    # Show ALL lesson cards
     for lesson in lessons:
         st.write(f"### 📗 {lesson}")
+
+        # --------------------------
+        # PDF DOWNLOAD
+        # --------------------------
         pdf_path = pdf_map[stream_name].get(lesson)
 
         if os.path.exists(pdf_path):
@@ -177,7 +180,18 @@ else:
         else:
             st.error(f"PDF NOT FOUND: {pdf_path}")
 
-    st.divider()
+        # --------------------------
+        # YOUTUBE SHORT EMBED
+        # --------------------------
+        video_url = shorts_map[stream_name].get(lesson)
+
+        if video_url:
+            st.write("🎬 **Watch Tutorial Video:**")
+            st.components.v1.iframe(video_url, height=380)
+        else:
+            st.warning("No video available for this lesson.")
+
+        st.divider()
 
     # SHOW SCORE BELOW LESSONS
     if st.session_state.quiz_score is not None:
