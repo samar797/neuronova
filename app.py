@@ -102,7 +102,7 @@ elif st.session_state.login and not st.session_state.quiz_done:
     q1 = st.radio("1. What is the main goal of SDG 4:", 
                    ["Ensure healthy lives", "Promote lifelong learning and quality education", "Achieve Gender Equality","End hunger"], index=None)
     q2 = st.radio("2. By which year does SDG 4 aim to achieve universal primary and secondary education?:", ["2025", "2030", "2050", "2040"], index=None)
-    q3 = st.radio("3. Which group does SDG 4 emphasize for equal access to education?:","options": ["Only adults","Only people in cities","Girls, children with disabilities, and vulnerable groups","Only university students"], index=None)
+    q3 = st.radio("3. Which group does SDG 4 emphasize for equal access to education?:", ["Only adults","Only people in cities","Girls, children with disabilities, and vulnerable groups","Only university students"], index=None)
     q4 = st.radio("4. Which skill is highlighted by SDG 4 as important for employment?:", ["Basic reading", "Technical and vocational skills", "Public speaking", "Sports skills"], index=None)
     q5 = st.radio("5. SDG 4 supports the building of safe and inclusive school environments. What does this include?", "options": ["Free uniforms","Access to internet and electricity","More school holidays","Only sports facilities"],index=None)
 
