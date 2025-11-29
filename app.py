@@ -3,13 +3,11 @@ import os
 
 st.set_page_config(page_title="AI Vocational Tutor", layout="centered")
 
-# ---------------- SESSION ----------------
 if "login" not in st.session_state: st.session_state.login = False
 if "user" not in st.session_state: st.session_state.user = None
 if "quiz_done" not in st.session_state: st.session_state.quiz_done = False
 if "quiz_score" not in st.session_state: st.session_state.quiz_score = None
 
-# ---------------- STREAM DATA ----------------
 stream_data = {
     "Jewellery Making": ["Terracotta Jewellery", "Beaded Jewellery", "Thread Jewellery"],
     "Candle And Soap Making": ["Scented Candle", "Organic Soap"],
@@ -39,7 +37,6 @@ shorts_map = {
     }
 }
 
-# ---------------- SDG QUIZ ----------------
 sdg_questions = [
     ("Which skill promotes traditional learning that supports creativity and income generation?", ["Communicative English","Jewellery Making","Computer skills","Soap making"], "Jewellery Making"),
     ("Which learning teaches practical skills that can lead to self-employment?", ["Candle making","Maths learning","Spoken english","Scientific learning"], "Candle making"),
@@ -54,10 +51,9 @@ def safe_stream(s):
             return k
     return None
 
-# ---------------- UI ----------------
 st.title("AI Vocational Tutor")
 
-# ---------- REGISTER ----------
+
 if not st.session_state.login:
     u = st.text_input("Create Username")
     p = st.text_input("Create Password", type="password")
@@ -69,7 +65,6 @@ if not st.session_state.login:
             st.session_state.login = True
             st.rerun()
 
-# ---------- SDG QUIZ ----------
 elif not st.session_state.quiz_done:
     st.subheader("SDG Entry Quiz")
 
@@ -92,7 +87,7 @@ elif not st.session_state.quiz_done:
             st.success(f"SDG Quiz Passed! Score: {score}/10")
             st.rerun()
 
-# ---------- DASHBOARD ----------
+
 else:
     user = st.session_state.user
     stream_name = safe_stream(user["stream"])
@@ -101,11 +96,11 @@ else:
     for lesson in stream_data[stream_name]:
         st.subheader(lesson)
 
-        # PDF
+        
         with open(pdf_map[stream_name][lesson], "rb") as f:
             st.download_button("Download PDF", f, file_name=os.path.basename(pdf_map[stream_name][lesson]))
 
-        # VIDEO
+      
         st.components.v1.iframe(shorts_map[stream_name][lesson], height=360)
 
         st.divider()
