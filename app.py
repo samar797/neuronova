@@ -8,7 +8,6 @@ if "login" not in st.session_state: st.session_state.login = False
 if "user" not in st.session_state: st.session_state.user = None
 if "quiz_done" not in st.session_state: st.session_state.quiz_done = False
 if "quiz_score" not in st.session_state: st.session_state.quiz_score = None
-if "active_quiz" not in st.session_state: st.session_state.active_quiz = None
 
 # ---------------- STREAM DATA ----------------
 stream_data = {
@@ -38,15 +37,6 @@ shorts_map = {
         "Scented Candle": "https://youtube.com/embed/0KIQrn-NuL0",
         "Organic Soap": "https://youtube.com/embed/MxXXWymDpuc",
     }
-}
-
-# ---------------- GOOGLE FORM QUIZ LINKS (REPLACE WITH REAL LINKS) ----------------
-google_form_map = {
-    "Terracotta Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_1/viewform?embedded=true",
-    "Beaded Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_1/viewform?embedded=true",
-    "Thread Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_3/viewform?embedded=true",
-    "Scented Candle": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_4/viewform?embedded=true",
-    "Organic Soap": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_5/viewform?embedded=true",
 }
 
 # ---------------- SDG QUIZ ----------------
@@ -117,19 +107,5 @@ else:
 
         # VIDEO
         st.components.v1.iframe(shorts_map[stream_name][lesson], height=360)
-
-        # GOOGLE FORM QUIZ BUTTON
-        if st.button(f"Start {lesson} Quiz"):
-            st.session_state.active_quiz = lesson
-            st.rerun()
-
-        # SHOW FORM
-        if st.session_state.active_quiz == lesson:
-            st.markdown("### 📝 Lesson Quiz")
-            st.components.v1.iframe(
-                google_form_map[lesson],
-                height=900,
-                scrolling=True
-            )
 
         st.divider()
