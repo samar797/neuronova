@@ -38,10 +38,10 @@ shorts_map = {
 }
 
 sdg_questions = [
-    ("Which skill promotes traditional learning that supports creativity and income generation?", ["Communicative English","Jewellery Making","Computer skills","Soap making"], "Jewellery Making"),
-    ("Which learning teaches practical skills that can lead to self-employment?", ["Candle making","Maths learning","Spoken english","Scientific learning"], "Candle making"),
-    ("Which skill helps students learn chemistry and entrepreneurship together?", ["Soap making","Jewellery making","Computer skills","Baking"], "Soap making"),
-    ("SDG 4 promotes vocational and technical skills. Which activity is an example of this?", ["Jewellery making","Watching TV","Playing video games","Listening to music"], "Jewellery making"),
+    ("Which skill promotes traditional learning that supports creativity and income generation?", ["Communicative English","Jewellery Making","Computer Skills","Soap Making"], "Jewellery Making"),
+    ("Which learning teaches practical skills that can lead to self-employment?", ["Candle Making","Maths Learning","Spoken English","Scientific Learning"], "Candle Making"),
+    ("Which skill helps students learn chemistry and entrepreneurship together?", ["Soap Making","Jewellery Making","Computer Skills","Baking"], "Soap Making"),
+    ("SDG 4 promotes vocational and technical skills. Which activity is an example of this?", ["Jewellery Making","Watching TV","Playing Video Games","Listening To Music"], "Jewellery Making"),
     ("How can jewellery making help students achieve SDG 4’s aim of lifelong learning?", ["By teaching a skill they can continue improving and earning","By forcing them to memorize facts","By limiting creativity","By focusing only on theory"], "By teaching a skill they can continue improving and earning"),
 ]
 
