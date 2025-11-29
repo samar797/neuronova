@@ -43,7 +43,7 @@ shorts_map = {
 # ---------------- GOOGLE FORM QUIZ LINKS (REPLACE WITH REAL LINKS) ----------------
 google_form_map = {
     "Terracotta Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_1/viewform?embedded=true",
-    "Beaded Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_2/viewform?embedded=true",
+    "Beaded Jewellery": "https://docs.google.com/forms/d/e/FNiSnUZCbsakVkcf7/viewform?embedded=true",
     "Thread Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_3/viewform?embedded=true",
     "Scented Candle": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_4/viewform?embedded=true",
     "Organic Soap": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_5/viewform?embedded=true",
