@@ -1,7 +1,7 @@
 📘 Neuronova AI Tutor
 
-Neuronova AI Tutor is an interactive learning platform built using Streamlit. It provides students with simple, practical, and skill-based lessons.
-This project is created by Team Neuronova for the Olympiad.
+Neuronova AI Tutor is an interactive learning platform built using Streamlit. This app is designed for the people who are unemployed
+and want to get jobs by various vocational streams. This project is created by Team Neuronova for the Olympiad.
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 🚀 Features
