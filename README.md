@@ -24,10 +24,11 @@ neuronova-ai-tutor/
 # Main Streamlit application file
 ├── requirements.txt            
 # Dependencies for Streamlit app
-├── README.md                   
+├── README.md                  
 # Project documentation
 │
-└── lesson_pdfs/                # Learning PDFs
+└── lesson_pdfs/                
+# Learning PDFs
     ├── Candle_And_Soap_Making/
     │     ├── organic soap.pdf
     │     └── scented candle.pdf
@@ -100,7 +101,7 @@ We did not use any AI tools while creating this project.
 
 👥 Team
 
-Team Neuronova
+Team Neuronova 
 Samar Garg
 Navya Kapoor
 Riddhi Bhandari
