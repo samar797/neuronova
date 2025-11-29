@@ -1,26 +1,20 @@
 import streamlit as st
 import os
 
-# ----------------- Page Configuration -----------------
 st.set_page_config(page_title="AI Vocational Tutor", layout="centered")
 
-# ----------------- Session State Initialization -----------------
-if "login" not in st.session_state: 
-    st.session_state.login = False
-if "user" not in st.session_state: 
-    st.session_state.user = None
-if "quiz_done" not in st.session_state: 
-    st.session_state.quiz_done = False
-if "quiz_score" not in st.session_state: 
-    st.session_state.quiz_score = None
+# ---------------- SESSION ----------------
+if "login" not in st.session_state: st.session_state.login = False
+if "user" not in st.session_state: st.session_state.user = None
+if "quiz_done" not in st.session_state: st.session_state.quiz_done = False
+if "quiz_score" not in st.session_state: st.session_state.quiz_score = None
 
-# ----------------- Streams and Lessons -----------------
+# ---------------- STREAM DATA ----------------
 stream_data = {
     "Jewellery Making": ["Terracotta Jewellery", "Beaded Jewellery", "Thread Jewellery"],
     "Candle And Soap Making": ["Scented Candle", "Organic Soap"],
 }
 
-# PDF paths for each lesson
 pdf_map = {
     "Jewellery Making": {
         "Terracotta Jewellery": "lesson_pdfs/Jewellery_Making/terracotta.pdf",
@@ -33,8 +27,7 @@ pdf_map = {
     }
 }
 
-# Short video links for each lesson
-video_map = {
+shorts_map = {
     "Jewellery Making": {
         "Terracotta Jewellery": "https://youtube.com/embed/xLnv2H6oIyE",
         "Beaded Jewellery": "https://youtube.com/embed/cfzRxrWtOKY",
@@ -46,88 +39,73 @@ video_map = {
     }
 }
 
-# ----------------- SDG Quiz -----------------
+# ---------------- SDG QUIZ ----------------
 sdg_questions = [
-    ("Which skill promotes traditional learning that supports creativity and income generation?", 
-     ["Communicative English","Jewellery Making","Computer Skills","Soap Making"], "Jewellery Making"),
-    ("Which learning teaches practical skills that can lead to self-employment?", 
-     ["Candle Making","Maths Learning","Spoken English","Scientific Learning"], "Candle Making"),
-    ("Which skill helps students learn chemistry and entrepreneurship together?", 
-     ["Soap Making","Jewellery Making","Computer Skills","Baking"], "Soap Making"),
-    ("SDG 4 promotes vocational and technical skills. Which activity is an example of this?", 
-     ["Jewellery Making","Watching TV","Playing Video Games","Listening To Music"], "Jewellery Making"),
-    ("How can jewellery making help students achieve SDG 4’s aim of lifelong learning?", 
-     ["By teaching a skill they can continue improving and earning",
-      "By forcing them to memorize facts",
-      "By limiting creativity",
-      "By focusing only on theory"], 
-     "By teaching a skill they can continue improving and earning"),
+    ("Which skill promotes traditional learning that supports creativity and income generation?", ["Communicative English","Jewellery Making","Computer skills","Soap making"], "Jewellery Making"),
+    ("Which learning teaches practical skills that can lead to self-employment?", ["Candle making","Maths learning","Spoken english","Scientific learning"], "Candle making"),
+    ("Which skill helps students learn chemistry and entrepreneurship together?", ["Soap making","Jewellery making","Computer skills","Baking"], "Soap making"),
+    ("SDG 4 promotes vocational and technical skills. Which activity is an example of this?", ["Jewellery making","Watching TV","Playing video games","Listening to music"], "Jewellery making"),
+    ("How can jewellery making help students achieve SDG 4’s aim of lifelong learning?", ["By teaching a skill they can continue improving and earning","By forcing them to memorize facts","By limiting creativity","By focusing only on theory"], "By teaching a skill they can continue improving and earning"),
 ]
 
-# Helper function to safely match stream names
-def safe_stream(stream_name):
-    for key in stream_data:
-        if key.lower() == stream_name.lower():
-            return key
+def safe_stream(s):
+    for k in stream_data:
+        if k.lower() == s.lower():
+            return k
     return None
 
-# ----------------- App Title -----------------
-st.title("🎓 AI Vocational Tutor")
-st.write("Welcome to the AI-powered vocational learning platform! Learn, watch, and practice skills from your selected stream.")
+# ---------------- UI ----------------
+st.title("AI Vocational Tutor")
 
-# ----------------- Registration Flow -----------------
+# ---------- REGISTER ----------
 if not st.session_state.login:
-    st.subheader("Create Your Account")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    selected_stream = st.selectbox("Select Your Stream", list(stream_data.keys()))
+    u = st.text_input("Create Username")
+    p = st.text_input("Create Password", type="password")
+    s = st.selectbox("Select Stream", list(stream_data.keys()))
 
     if st.button("Register"):
-        if username and password:
-            st.session_state.user = {"username": username, "stream": selected_stream}
+        if u and p:
+            st.session_state.user = {"username": u, "stream": s}
             st.session_state.login = True
-            st.success(f"Welcome {username}! You have registered successfully.")
-            st.experimental_rerun()
-        else:
-            st.warning("Please enter both username and password.")
+            st.rerun()
 
-# ----------------- SDG Entry Quiz -----------------
+# ---------- SDG QUIZ ----------
 elif not st.session_state.quiz_done:
-    st.subheader("📝 SDG Entry Quiz")
-    st.write("Answer the following questions to begin your learning journey:")
+    st.subheader("SDG Entry Quiz")
 
     answers = []
-    for i, (question, options, _) in enumerate(sdg_questions):
-        answer = st.radio(f"{i+1}. {question}", options, key=f"sdg{i}")
-        answers.append(answer)
+    for i,(q,opt,_) in enumerate(sdg_questions):
+        a = st.radio(f"{i+1}. {q}", opt, key=f"sdg{i}", index=None)
+        answers.append(a)
 
-    if st.button("Submit Quiz"):
+    if st.button("Submit SDG Quiz"):
         if any(a is None for a in answers):
-            st.warning("Please answer all questions before submitting.")
+            st.warning("Answer all questions")
         else:
-            score = sum(2 for i, a in enumerate(answers) if a == sdg_questions[i][2])
+            score = 0
+            for i,a in enumerate(answers):
+                if a == sdg_questions[i][2]:
+                    score += 2
+
             st.session_state.quiz_score = score
             st.session_state.quiz_done = True
-            st.success(f"Quiz completed! Your score: {score}/10")
-            st.experimental_rerun()
+            st.success(f"SDG Quiz Passed! Score: {score}/10")
+            st.rerun()
 
-# ----------------- Dashboard -----------------
+# ---------- DASHBOARD ----------
 else:
     user = st.session_state.user
     stream_name = safe_stream(user["stream"])
-    st.success(f"Welcome back, {user['username']}! | SDG Quiz Score: {st.session_state.quiz_score}/10")
-
-    st.write("Here are your lessons for the selected stream:")
+    st.success(f"Welcome {user['username']} | SDG Score: {st.session_state.quiz_score}/10")
 
     for lesson in stream_data[stream_name]:
-        st.subheader(f"📘 {lesson}")
+        st.subheader(lesson)
 
-        # PDF Download
-        pdf_path = pdf_map[stream_name][lesson]
-        with open(pdf_path, "rb") as f:
-            st.download_button("Download Lesson PDF", f, file_name=os.path.basename(pdf_path))
+        # PDF
+        with open(pdf_map[stream_name][lesson], "rb") as f:
+            st.download_button("Download PDF", f, file_name=os.path.basename(pdf_map[stream_name][lesson]))
 
-        # Lesson Video
-        st.components.v1.iframe(video_map[stream_name][lesson], height=360)
+        # VIDEO
+        st.components.v1.iframe(shorts_map[stream_name][lesson], height=360)
 
         st.divider()
