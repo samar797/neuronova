@@ -61,10 +61,15 @@ This will automatically open the app in your browser.
 File/Folder	Description
 
 main.py	Main Streamlit code for the application
+
 lesson_pdfs/	Contains all PDFs for both skill categories
+
 Candle_And_Soap_Making/	Lessons for candle making and soap making
+
 Jewellery_Making/	Lessons for jewellery making
+
 requirements.txt	Python dependencies used in the app
+
 README.md	Documentation for the entire project
 ----------------------------------------------------------------------------------------------------------------------------------------
 
