@@ -73,7 +73,7 @@ elif not st.session_state.quiz_done:
         a = st.radio(f"{i+1}. {q}", opt, key=f"sdg{i}", index=None)
         answers.append(a)
 
-    if st.button("Submit SDG Quiz"):
+    if st.button("Submit Sdg Quiz"):
         if any(a is None for a in answers):
             st.warning("Answer all questions")
         else:
