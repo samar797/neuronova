@@ -8,7 +8,6 @@ if "login" not in st.session_state: st.session_state.login = False
 if "user" not in st.session_state: st.session_state.user = None
 if "quiz_done" not in st.session_state: st.session_state.quiz_done = False
 if "quiz_score" not in st.session_state: st.session_state.quiz_score = None
-if "lesson_quiz_scores" not in st.session_state: st.session_state.lesson_quiz_scores = {}
 if "active_quiz" not in st.session_state: st.session_state.active_quiz = None
 
 # ---------------- STREAM DATA ----------------
@@ -41,82 +40,23 @@ shorts_map = {
     }
 }
 
+# ---------------- GOOGLE FORM QUIZ LINKS (REPLACE WITH REAL LINKS) ----------------
+google_form_map = {
+    "Terracotta Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_1/viewform?embedded=true",
+    "Beaded Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_2/viewform?embedded=true",
+    "Thread Jewellery": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_3/viewform?embedded=true",
+    "Scented Candle": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_4/viewform?embedded=true",
+    "Organic Soap": "https://docs.google.com/forms/d/e/YOUR_FORM_ID_5/viewform?embedded=true",
+}
+
 # ---------------- SDG QUIZ ----------------
 sdg_questions = [
-    ("Which skill promotes traditional learning?", ["Jewellery making","Computer skills","English","Maths"], "Jewellery making"),
-    ("Which skill leads to self-employment?", ["Candle making","Physics","Biology","English"], "Candle making"),
-    ("Which skill teaches chemistry also?", ["Soap making","Dance","Music","Sports"], "Soap making"),
-    ("Which activity supports SDG 4?", ["Jewellery making","Gaming","TV","Reels"], "Jewellery making"),
-    ("Lifelong learning means:", ["Learning for life","One day study","Forced study","No study"], "Learning for life"),
+    ("Which skill promotes traditional learning that supports creativity and income generation?", ["Communicative English","Jewellery Making","Computer skills","Soap making"], "Jewellery Making"),
+    ("Which learning teaches practical skills that can lead to self-employment?", ["Candle making","Maths learning","Spoken english","Scientific learning"], "Candle making"),
+    ("Which skill helps students learn chemistry and entrepreneurship together?", ["Soap making","Jewellery making","Computer skills","Baking"], "Soap making"),
+    ("SDG 4 promotes vocational and technical skills. Which activity is an example of this?", ["Jewellery making","Watching TV","Playing video games","Listening to music"], "Jewellery making"),
+    ("How can jewellery making help students achieve SDG 4’s aim of lifelong learning?", ["By teaching a skill they can continue improving and earning","By forcing them to memorize facts","By limiting creativity","By focusing only on theory"], "By teaching a skill they can continue improving and earning"),
 ]
-
-# ---------------- 50 QUESTIONS ----------------
-lesson_question_bank = {
-"Terracotta Jewellery": [
-("Terracotta jewellery is made from:", ["Clay","Plastic","Glass","Wood"], "Clay"),
-("Which SDG supports skill education?", ["SDG 4","SDG 1","SDG 13","SDG 16"], "SDG 4"),
-("Terracotta jewellery is:", ["Eco-friendly","Harmful","Chemical based","Plastic based"], "Eco-friendly"),
-("This skill helps in:", ["Self-employment","Gambling","Gaming","Watching TV"], "Self-employment"),
-("Clay must be:", ["Baked","Frozen","Washed","Painted"], "Baked"),
-("Terracotta supports:", ["Sustainable living","Pollution","Wastage","None"], "Sustainable living"),
-("Terracotta jewellery is mostly:", ["Handmade","Machine only","Imported","Illegal"], "Handmade"),
-("Terracotta art comes from:", ["Traditional crafts","Modern physics","Coding","Banking"], "Traditional crafts"),
-("This skill improves:", ["Creativity","Laziness","Fear","Anger"], "Creativity"),
-("This skill can earn:", ["Income","Punishment","Loss","Trouble"], "Income"),
-],
-
-"Beaded Jewellery": [
-("Beaded jewellery is made using:", ["Beads","Clay","Soap","Wax"], "Beads"),
-("Beads can be made of:", ["Glass","Plastic","Wood","All"], "All"),
-("Beaded jewellery is used for:", ["Decoration","Cooking","Driving","Farming"], "Decoration"),
-("This skill supports:", ["Entrepreneurship","Unemployment","Crime","Waste"], "Entrepreneurship"),
-("Beaded jewellery improves:", ["Fine motor skills","Weakness","Stress","Fear"], "Fine motor skills"),
-("Making beads requires:", ["Patience","Anger","Speed","Fear"], "Patience"),
-("Beaded jewellery is:", ["Lightweight","Very heavy","Liquid","Edible"], "Lightweight"),
-("This is a type of:", ["Handicraft","Software","Medicine","Tool"], "Handicraft"),
-("Beaded jewellery can be sold:", ["Online & offline","Only offline","Only online","Cannot be sold"], "Online & offline"),
-("This skill is useful for:", ["Self business","Time waste","Games only","TV only"], "Self business"),
-],
-
-"Thread Jewellery": [
-("Thread jewellery uses:", ["Threads","Clay","Wax","Soap"], "Threads"),
-("Thread jewellery is:", ["Lightweight","Very heavy","Liquid","Metal"], "Lightweight"),
-("Thread jewellery supports:", ["Home business","Crime","Waste","Pollution"], "Home business"),
-("Thread art requires:", ["Creativity","Fighting","Running","Shouting"], "Creativity"),
-("Thread jewellery is mostly:", ["Handmade","Factory only","Imported only","Illegal"], "Handmade"),
-("Thread jewellery is suitable for:", ["Low investment business","High risk gambling","Crime","Loss"], "Low investment business"),
-("Thread jewellery is:", ["Eco-friendly","Dangerous","Toxic","Waste"], "Eco-friendly"),
-("Thread jewellery can be:", ["Customized","Fixed only","Broken","Destroyed"], "Customized"),
-("This skill gives:", ["Income opportunity","Loss only","Punishment","Risk only"], "Income opportunity"),
-("Thread jewellery supports:", ["Skill development","No learning","Failure","Fear"], "Skill development"),
-],
-
-"Scented Candle": [
-("Scented candles are made from:", ["Wax","Clay","Thread","Soap"], "Wax"),
-("Scented candles are used for:", ["Aroma therapy","Eating","Farming","Driving"], "Aroma therapy"),
-("Candle making supports:", ["Small business","Crime","Waste","Fear"], "Small business"),
-("Wax is melted using:", ["Heat","Cold","Water only","Air"], "Heat"),
-("Fragrance is added to:", ["Wax","Thread","Plastic","Clay"], "Wax"),
-("Candle making requires:", ["Safety","Risk","Carelessness","Fear"], "Safety"),
-("Candle making is a:", ["Vocational skill","Sport","Game","Dance"], "Vocational skill"),
-("Scented candles are sold in:", ["Shops","Hospitals","Schools","Banks"], "Shops"),
-("Candle business requires:", ["Low investment","Huge land","No work","No skill"], "Low investment"),
-("Candle making supports:", ["Entrepreneurship","Unemployment","Loss","Waste"], "Entrepreneurship"),
-],
-
-"Organic Soap": [
-("Organic soap is made from:", ["Natural ingredients","Plastic","Metal","Paint"], "Natural ingredients"),
-("Organic soap is good for:", ["Skin","Iron","Wood","Plastic"], "Skin"),
-("Soap making teaches:", ["Chemistry & business","Gaming","Dance","Sports"], "Chemistry & business"),
-("Soap making supports:", ["Home industry","Crime","Waste","Pollution"], "Home industry"),
-("Soap is made using:", ["Oils & lye","Only water","Only sugar","Only wax"], "Oils & lye"),
-("Organic soap is:", ["Chemical free","Highly toxic","Plastic","Metal"], "Chemical free"),
-("Soap making requires:", ["Safety measures","Blind work","Carelessness","Fear"], "Safety measures"),
-("Soap making can be:", ["Business","Time waste","Game","Punishment"], "Business"),
-("Soap is used for:", ["Hygiene","Eating","Painting","Driving"], "Hygiene"),
-("Soap making supports:", ["Self-employment","Unemployment","Loss","Waste"], "Self-employment"),
-],
-}
 
 def safe_stream(s):
     for k in stream_data:
@@ -159,6 +99,7 @@ elif not st.session_state.quiz_done:
 
             st.session_state.quiz_score = score
             st.session_state.quiz_done = True
+            st.success(f"SDG Quiz Passed! Score: {score}/10")
             st.rerun()
 
 # ---------- DASHBOARD ----------
@@ -170,39 +111,25 @@ else:
     for lesson in stream_data[stream_name]:
         st.subheader(lesson)
 
+        # PDF
         with open(pdf_map[stream_name][lesson], "rb") as f:
             st.download_button("Download PDF", f, file_name=os.path.basename(pdf_map[stream_name][lesson]))
 
+        # VIDEO
         st.components.v1.iframe(shorts_map[stream_name][lesson], height=360)
 
-        if lesson not in st.session_state.lesson_quiz_scores:
-            if st.button(f"Start {lesson} Quiz"):
-                st.session_state.active_quiz = lesson
-                st.rerun()
-        else:
-            st.success(f"Score: {st.session_state.lesson_quiz_scores[lesson]}/10")
+        # GOOGLE FORM QUIZ BUTTON
+        if st.button(f"Start {lesson} Quiz"):
+            st.session_state.active_quiz = lesson
+            st.rerun()
 
+        # SHOW FORM
         if st.session_state.active_quiz == lesson:
-            score = 0
-            answers = []
-
-            for i,(q,opts,correct) in enumerate(lesson_question_bank[lesson]):
-                ua = st.radio(f"{i+1}. {q}", opts, key=f"{lesson}{i}", index=None)
-                answers.append((ua, correct))
-
-            if st.button("Submit Quiz"):
-                if any(a[0] is None for a in answers):
-                    st.warning("Answer all")
-                else:
-                    for ua,ca in answers:
-                        if ua == ca:
-                            score += 1
-                    st.session_state.lesson_quiz_scores[lesson] = score
-                    st.session_state.active_quiz = None
-                    st.rerun()
+            st.markdown("### 📝 Lesson Quiz")
+            st.components.v1.iframe(
+                google_form_map[lesson],
+                height=900,
+                scrolling=True
+            )
 
         st.divider()
-
-    if st.session_state.lesson_quiz_scores:
-        total = sum(st.session_state.lesson_quiz_scores.values())
-        st.info(f"Total Lesson Score: {total} / 50")
